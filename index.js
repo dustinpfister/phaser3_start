@@ -117,7 +117,8 @@ class Game extends Phaser.Scene {
             this.player.setVelocityY( v );
         }
         
-        this.camera.pan(this.player.x, this.player.y, 1000);
+        this.camera.setZoom(2).centerOn(this.player.x, this.player.y);
+        //this.camera.setZoom(2).pan(this.player.x, this.player.y, 500);
         
     }
 }
@@ -128,10 +129,8 @@ const config = {
     height: 480,
     backgroundColor: '#afafaf',
     scene: Game,
-    //zoom:2,
-    //render: { pixelArt: true, antialias: false },
-    //pixelArt: true,
-    //roundPixels: true,	
+    zoom: 1,
+    render: { pixelArt: true, antialias: true },
     physics: {
         default: 'arcade',
         arcade: {
