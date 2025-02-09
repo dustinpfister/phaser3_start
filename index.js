@@ -123,12 +123,12 @@ class Game extends Phaser.Scene {
 }
 
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     width: 640,
     height: 480,
     backgroundColor: '#afafaf',
     scene: Game,
-    //zoom:1,
+    //zoom:2,
     //render: { pixelArt: true, antialias: false },
     //pixelArt: true,
     //roundPixels: true,	
