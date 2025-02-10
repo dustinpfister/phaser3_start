@@ -30,6 +30,11 @@ class Game extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
         this.physics.add.collider(this.player, this.layer);
         
+        
+        this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
+        
+        console.log(this.camera)
+        
     }
     update () {
     
@@ -53,7 +58,10 @@ class Game extends Phaser.Scene {
         }
         
         // camera
-        this.camera.setZoom(2.0).pan(this.player.x, this.player.y, 500);
+        this.camera.setZoom(4.0).pan(this.player.x, this.player.y, 200);
+        this.text_player.x = this.player.body.position.x - 20;
+        this.text_player.y = this.player.body.position.y - 20;
+        this.text_player.text = Math.floor(this.player.x) + ', ' + Math.floor(this.player.y);
         
     }
 }
