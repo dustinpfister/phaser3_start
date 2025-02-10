@@ -3,14 +3,7 @@ class Game extends Phaser.Scene {
     
         // set the base url for loading assets
         this.load.setBaseURL('./');
-        
-        // sprite sheet(s)
-        //this.load.atlas('test', 'sheets/test.png', 'sheets/test_atlas.json');
-        //this.load.image('test_tiles', 'sheets/test_tiles.png');
-        
         this.load.atlas('map_16_16', 'sheets/map_16_16.png', 'sheets/map_16_16_atlas.json');
-   
-        
         this.load.tilemapCSV('map', 'map1.csv');
         
     }
@@ -22,48 +15,30 @@ class Game extends Phaser.Scene {
         // input cursors
         this.cursors = this.input.keyboard.createCursorKeys();
      
-        const map = this.map = this.make.tilemap({ key: 'map', tileWidth: 16, tileHeight: 16 });
-        
+        // map
+        const map = this.map = this.make.tilemap({ key: 'map', tileWidth: 16, tileHeight: 16 }); 
         map.setCollision([0,2]);
-        
         const tiles = map.addTilesetImage('map_16_16');
-
-        // create a layer
         const layer = this.layer = map.createLayer(0, tiles, 0, 0);
-        
-
-        //layer.randomize(0, 0, map.width, map.height, [ 0, 1, 2, 3 ]);
-        
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         
         // player sprite   
         const can = this.sys.game.canvas;
-        const x = 16 + 32 * 2; //can.width / 2;
-        const y = 16 + 32 * 2; //can.height / 2;
+        const x = 16 + 32 * 2;
+        const y = 16 + 32 * 2;
         this.player = this.physics.add.sprite(x, y, 'map_16_16');
-        
         this.player.setCollideWorldBounds(true);
-        
         this.physics.add.collider(this.player, this.layer);
         
-        //!!! need to figure out how to draw this relative to camera
-        //this.debug = this.add.text(10, 10, 'info');
-           
     }
     update () {
     
-        const d = this.player.data;
-    
-    
-        // can just simple set a frame like this
+        // can set a frame like this
         this.player.setFrame('pl-1');
     
-        // set/update player velocity
+        // set player velocity
         this.player.setVelocity(0);
-        const v = 100;
-        
-        
-        
+        const v = 100;     
         if (this.cursors.left.isDown) {
             this.player.setVelocityX( v * -1 );
         }
@@ -77,7 +52,7 @@ class Game extends Phaser.Scene {
             this.player.setVelocityY( v );
         }
         
-        //this.camera.setZoom(1).centerOn(this.player.x, this.player.y);
+        // camera
         this.camera.setZoom(2.0).pan(this.player.x, this.player.y, 500);
         
     }
