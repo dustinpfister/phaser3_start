@@ -5,8 +5,12 @@ class Game extends Phaser.Scene {
         this.load.setBaseURL('./');
         
         // sprite sheet(s)
-        this.load.atlas('test', 'sheets/test.png', 'sheets/test_atlas.json');
-        this.load.image('test_tiles', 'sheets/test_tiles.png');
+        //this.load.atlas('test', 'sheets/test.png', 'sheets/test_atlas.json');
+        //this.load.image('test_tiles', 'sheets/test_tiles.png');
+        
+        this.load.atlas('map_16_16', 'sheets/map_16_16.png', 'sheets/map_16_16_atlas.json');
+   
+        
         this.load.tilemapCSV('map', 'map1.csv');
         
     }
@@ -18,11 +22,11 @@ class Game extends Phaser.Scene {
         // input cursors
         this.cursors = this.input.keyboard.createCursorKeys();
      
-        const map = this.map = this.make.tilemap({ key: 'map', tileWidth: 32, tileHeight: 32 });
+        const map = this.map = this.make.tilemap({ key: 'map', tileWidth: 16, tileHeight: 16 });
         
-        map.setCollision([1]);
+        map.setCollision([0,2]);
         
-        const tiles = map.addTilesetImage('test_tiles');
+        const tiles = map.addTilesetImage('map_16_16');
 
         // create a layer
         const layer = this.layer = map.createLayer(0, tiles, 0, 0);
@@ -36,7 +40,7 @@ class Game extends Phaser.Scene {
         const can = this.sys.game.canvas;
         const x = 16 + 32 * 2; //can.width / 2;
         const y = 16 + 32 * 2; //can.height / 2;
-        this.player = this.physics.add.sprite(x, y, 'test');
+        this.player = this.physics.add.sprite(x, y, 'map_16_16');
         
         this.player.setCollideWorldBounds(true);
         
@@ -52,7 +56,7 @@ class Game extends Phaser.Scene {
     
     
         // can just simple set a frame like this
-        this.player.setFrame('bx-1');
+        this.player.setFrame('pl-1');
     
         // set/update player velocity
         this.player.setVelocity(0);
@@ -74,7 +78,7 @@ class Game extends Phaser.Scene {
         }
         
         //this.camera.setZoom(1).centerOn(this.player.x, this.player.y);
-        this.camera.setZoom(1.0).pan(this.player.x, this.player.y, 500);
+        this.camera.setZoom(2.0).pan(this.player.x, this.player.y, 500);
         
     }
 }
