@@ -1,19 +1,32 @@
 class Boot extends Phaser.Scene {
+
+
+
     create () {
         console.log('Booting \'Phaser Start\'');
-        this.scene.start('World');
+        this.scene.start('Load');
     }
 }
 
-class World extends Phaser.Scene {
-    preload () {
+class Load extends Phaser.Scene {
+
+    preload(){
     
-        // set the base url for loading assets
         this.load.setBaseURL('./');
         this.load.atlas('map_16_16', 'sheets/map_16_16.png', 'sheets/map_16_16_atlas.json');
         this.load.tilemapCSV('map', 'map1.csv');
-            
+    
     }
+    
+    create () {
+        console.log('Loading');
+        this.scene.start('World');
+    }
+
+}
+
+class World extends Phaser.Scene {
+
     create () {
     
         // camera
@@ -76,6 +89,7 @@ class World extends Phaser.Scene {
 class Game extends Phaser.Scene {
     preload () {
         this.scene.add('Boot', Boot, false);
+        this.scene.add('Load', Load, false);
         this.scene.add('World', World, false);
         this.scene.start('Boot');
     }

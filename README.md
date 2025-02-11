@@ -10,5 +10,6 @@ This is what I have togeather for a Phaser 3 Game starting point.
 * ( done ) go with 16 by 16 for sprite sheets
 * ( done ) display debug info relative to player
 * ( done ) boot, and world scene
-* (      ) spwan locations in maps
+* ( done ) Load State
+* (      ) spwan locations in maps using an object layer
 ```
