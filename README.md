@@ -1,6 +1,6 @@
 # Phaser 3 - Start
 
-This is what I have togeather for a Phaser 3 Game starting point.
+This is what I have togeather for a Phaser 3 Game starting point for a top down style game that makes heavy use of tilemaps. The goal here is to work out a lot of the basic things that will come up when dealing with tilemaps in a game that might have a somewhat large world in which to explore. However sense this is very much a start point I will shy away from writing any game specfic logic.
 
 
 ## What to get done still
@@ -11,5 +11,6 @@ This is what I have togeather for a Phaser 3 Game starting point.
 * ( done ) display debug info relative to player
 * ( done ) boot, and world scene
 * ( done ) Load State
-* (      ) spwan locations in maps using an object layer
+* ( done ) spwan locations in maps using map json data files
+* (      ) 
 ```

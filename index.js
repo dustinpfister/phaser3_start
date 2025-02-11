@@ -1,7 +1,5 @@
 class Boot extends Phaser.Scene {
 
-
-
     create () {
         console.log('Booting \'Phaser Start\'');
         this.scene.start('Load');
@@ -14,12 +12,18 @@ class Load extends Phaser.Scene {
     
         this.load.setBaseURL('./');
         this.load.atlas('map_16_16', 'sheets/map_16_16.png', 'sheets/map_16_16_atlas.json');
+        this.load.json('map_16_16_data', 'sheets/map_16_16_data.json');
         this.load.tilemapCSV('map', 'map1.csv');
     
     }
     
     create () {
         console.log('Loading');
+        
+        const data = this.cache.json.get('map_16_16_data');
+        
+        console.log( data.spawnAt )
+        
         this.scene.start('World');
     }
 
@@ -41,11 +45,12 @@ class World extends Phaser.Scene {
         const tiles = map.addTilesetImage('map_16_16');
         const layer = this.layer = map.createLayer(0, tiles, 0, 0);
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
+        const mapData = this.cache.json.get('map_16_16_data');
         
         // player sprite   
         const can = this.sys.game.canvas;
-        const x = 16 + 32 * 2;
-        const y = 16 + 32 * 2;
+        const x = 16 * mapData.spawnAt.x + 8;
+        const y = 16 * mapData.spawnAt.y + 8;
         this.player = this.physics.add.sprite(x, y, 'map_16_16');
         this.player.setCollideWorldBounds(true);
         this.physics.add.collider(this.player, this.layer);
@@ -78,7 +83,9 @@ class World extends Phaser.Scene {
         }
         
         // camera
-        this.camera.setZoom(4.0).pan(this.player.x, this.player.y, 200);
+        this.camera.setZoom(2.0).pan(this.player.x, this.player.y, 200);
+        
+        // player debug text
         this.text_player.x = this.player.body.position.x - 20;
         this.text_player.y = this.player.body.position.y - 20;
         this.text_player.text = Math.floor(this.player.x) + ', ' + Math.floor(this.player.y);
