@@ -30,6 +30,12 @@ class Load extends Phaser.Scene {
 class World extends Phaser.Scene {
 
     setupMap ( mapNum = 1 ) {
+    
+        
+        if(this.map){
+           this.map.destroy();
+        }
+    
         const map = this.map = this.make.tilemap({ key: 'map' + mapNum, tileWidth: 16, tileHeight: 16 }); 
         map.setCollision( [ 0, 2] );
         const tiles = map.addTilesetImage('map_16_16');
@@ -79,12 +85,14 @@ class World extends Phaser.Scene {
         
         this.player = this.physics.add.sprite(x, y, 'map_16_16');
         this.player.setCollideWorldBounds(true);
-        this.physics.add.collider(this.player, this.layer);
+        //this.physics.add.collider(this.player, this.layer);
         this.player.depth = 2;
      
         // map
         this.setupMap(2);
             
+        
+        //this.physics.add.collider(this.player, this.layer);
         
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
         this.text_player.depth = 1;
