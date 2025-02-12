@@ -6,17 +6,14 @@
   },
   "doors" : [
     {
-      "desc": "The front east door",
+      "desc": "The front east door to trip hallway",
       "position":{
-        "x": 0,
-        "x": 0
+        "x": 6,
+        "y": 0
       },
       "to": {
         "map": "Trip_Hallway",
-        "spawnAt": {
-          "x": 0,
-          "y": 0
-        }
+        "doorIndex": 0 
       }
     }
   ]

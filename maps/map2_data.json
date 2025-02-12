@@ -5,18 +5,15 @@
      "y": 2
   },
   "doors" : [
-    {
+    {   
       "desc": "The front east door to Mega-T",
       "position":{
-        "x": 0,
-        "x": 0
+        "x": 4,
+        "y": 7
       },
       "to": {
         "map": "Mega_T",
-        "spawnAt": {
-          "x": 0,
-          "y": 0
-        }
+        "doorIndex: 0
       }
     }
   ]
