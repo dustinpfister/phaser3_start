@@ -13,7 +13,8 @@
       },
       "to": {
         "map": "Mega_T",
-        "doorIndex: 0
+        "mapNum": 1,
+        "doorIndex": 0
       }
     }
   ]
