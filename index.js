@@ -12,17 +12,18 @@ class Load extends Phaser.Scene {
     
         this.load.setBaseURL('./');
         this.load.atlas('map_16_16', 'sheets/map_16_16.png', 'sheets/map_16_16_atlas.json');
-        this.load.json('map_16_16_data', 'sheets/map_16_16_data.json');
-        this.load.tilemapCSV('map', 'map1.csv');
+        
+        this.load.json('map1_data', 'sheets/map1_data.json');
+        this.load.tilemapCSV('map1', 'map1.csv');
     
     }
     
     create () {
         console.log('Loading');
         
-        const data = this.cache.json.get('map_16_16_data');
+        const data = this.cache.json.get('map1_data');
         
-        console.log( data.spawnAt )
+        console.log( data )
         
         this.scene.start('World');
     }
@@ -40,12 +41,12 @@ class World extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
      
         // map
-        const map = this.map = this.make.tilemap({ key: 'map', tileWidth: 16, tileHeight: 16 }); 
+        const map = this.map = this.make.tilemap({ key: 'map1', tileWidth: 16, tileHeight: 16 }); 
         map.setCollision([0,2]);
         const tiles = map.addTilesetImage('map_16_16');
         const layer = this.layer = map.createLayer(0, tiles, 0, 0);
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
-        const mapData = this.cache.json.get('map_16_16_data');
+        const mapData = this.cache.json.get('map1_data');
         
         // player sprite   
         const can = this.sys.game.canvas;
