@@ -46,7 +46,15 @@ class World extends Phaser.Scene {
         
         this.children.sortByDepth(this.player, this.map);
         
-        console.log(this.children.length);
+        
+        this.physics.world.colliders.removeAll();
+        
+        
+        this.physics.add.collider(this.player, this.layer);
+        
+        
+        console.log(this.physics.world.colliders)
+        
         
     
     }
@@ -92,7 +100,7 @@ class World extends Phaser.Scene {
         this.setupMap(2);
             
         
-        //this.physics.add.collider(this.player, this.layer);
+        
         
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
         this.text_player.depth = 1;
