@@ -1,0 +1,23 @@
+{
+  "name": "Mega_T",
+  "spawnAt": {
+     "x": 15,
+     "y": 32
+  },
+  "doors" : [
+    {
+      "desc": "The front east door",
+      "position":{
+        "x": 0,
+        "x": 0
+      },
+      "to": {
+        "map": "Trip_Hallway",
+        "spawnAt": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    }
+  ]
+}
