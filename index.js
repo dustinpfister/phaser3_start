@@ -29,13 +29,10 @@ class Load extends Phaser.Scene {
 
 class World extends Phaser.Scene {
 
-    setupMap ( mapNum = 1 ) {
-    
-        
+    setupMap ( mapNum = 1, x=1, y=1 ) {    
         if(this.map){
            this.map.destroy();
         }
-    
         const map = this.map = this.make.tilemap({ key: 'map' + mapNum, tileWidth: 16, tileHeight: 16 }); 
         map.setCollision( [ 0, 2] );
         const tiles = map.addTilesetImage('map_16_16');
@@ -43,40 +40,50 @@ class World extends Phaser.Scene {
         layer.depth = -1;
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         this.mapData = this.cache.json.get('map' + mapNum + '_data');
-        
         this.children.sortByDepth(this.player, this.map);
-        
-        
         this.physics.world.colliders.removeAll();
-        
-        
         this.physics.add.collider(this.player, this.layer);
-        
-        
-        console.log(this.physics.world.colliders)
-        
-        
-    
+        this.player.x = Math.floor( x * 16 + 8); 
+        this.player.y = Math.floor( y * 16 + 8); 
     }
     
     doorCheck () {
-    
-       const doors = this.mapData.doors;
+       const doors = this.mapData.doors; 
        
-       let i = doors.length;
-       while(i--){
-           const d = doors[i];
-           const p = d.position;
-           const playerX = Math.floor( this.player.x / 16); 
-           const playerY = Math.floor( this.player.y / 16);
-           
-           if( playerX === p.x && playerY === p.y ){
-               console.log( 'DOOR! ' + d.to.mapNum + ',' + d.to.doorIndex );
-               this.setupMap(d.to.mapNum);
+       
+       
+       const playerX = Math.floor( this.player.x / 16); 
+       const playerY = Math.floor( this.player.y / 16); 
+       
+       if(this.doorDisable){
+           let i = doors.length;
+           this.doorDisable = false;
+           while(i--){
+               const d = doors[i];
+               const p = d.position;
+               if( playerX === p.x && playerY === p.y ){
+                   this.doorDisable = true;
+                   break;
+               }
            }
            
+       
        }
-    
+       
+       let i = doors.length;
+       while(i-- && !this.doorDisable){
+           const d = doors[i];
+           const p = d.position;
+           if( playerX === p.x && playerY === p.y ){
+               console.log( 'DOOR! ' + d.to.mapNum + ',' + d.to.doorIndex );
+               
+               // new map data
+               this.doorDisable = true;
+               this.mapData = this.cache.json.get('map' + d.to.mapNum + '_data');
+               const d_new = this.mapData.doors[d.to.doorIndex];
+               this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
+           }   
+       }
     }
 
     create () {
@@ -88,13 +95,15 @@ class World extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
      
      
-        const x = 16 * 2 + 8;
-        const y = 16 * 2 + 8;
+        //const x = 16 * 2 + 8;
+        //const y = 16 * 2 + 8;
         
-        this.player = this.physics.add.sprite(x, y, 'map_16_16');
+        this.player = this.physics.add.sprite(0, 0, 'map_16_16');
         this.player.setCollideWorldBounds(true);
         //this.physics.add.collider(this.player, this.layer);
         this.player.depth = 2;
+     
+        this.doorDisable = false;
      
         // map
         this.setupMap(2);
