@@ -19,7 +19,7 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * (      ) figure out a solution for 'double doors'
 * (      ) figure out a 'door slide' solution to help with single doors
 
-* (      ) Have a player sheet, and walking animations
+* (      ) Have a player sheet
 * (      ) Have objects in maps that the player can pick up
 * (      ) Start a states folder
 ```

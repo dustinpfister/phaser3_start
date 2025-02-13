@@ -12,6 +12,7 @@ class Load extends Phaser.Scene {
     
         this.load.setBaseURL('./');
         this.load.atlas('map_16_16', 'sheets/map_16_16.png', 'sheets/map_16_16_atlas.json');
+        this.load.atlas('people_16_16', 'sheets/people_16_16.png', 'sheets/people_16_16_atlas.json');
         
         this.load.json('map1_data', 'maps/map1_data.json');
         this.load.tilemapCSV('map1', 'maps/map1.csv');
@@ -88,7 +89,7 @@ class World extends Phaser.Scene {
         
         this.cursors = this.input.keyboard.createCursorKeys();
      
-        this.player = this.physics.add.sprite(0, 0, 'map_16_16');
+        this.player = this.physics.add.sprite(0, 0, 'people_16_16');
         this.player.setCollideWorldBounds(true);
         this.player.depth = 2;
      
@@ -104,7 +105,7 @@ class World extends Phaser.Scene {
     }
     update () {
     
-        this.player.setFrame('pl-1');
+        this.player.setFrame('pl_down');
     
         this.player.setVelocity(0);
         const v = 100;     
