@@ -16,6 +16,18 @@
         "mapNum": 1,
         "doorIndex": 0
       }
+    },
+    {   
+      "desc": "The front west door to Mega-T",
+      "position":{
+        "x": 33,
+        "y": 7
+      },
+      "to": {
+        "map": "Mega_T",
+        "mapNum": 1,
+        "doorIndex": 1
+      }
     }
   ]
 }

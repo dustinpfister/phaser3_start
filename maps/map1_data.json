@@ -16,6 +16,18 @@
         "mapNum": 2,
         "doorIndex": 0 
       }
+    },
+    {
+      "desc": "The front west door to trip hallway",
+      "position":{
+        "x": 33,
+        "y": 0
+      },
+      "to": {
+        "map": "Trip_Hallway",
+        "mapNum": 2,
+        "doorIndex": 1 
+      }
     }
   ]
 }
