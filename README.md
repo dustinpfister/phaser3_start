@@ -13,9 +13,13 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Load State
 * ( done ) Spawn locations in maps using map json data files
 * ( done ) Have more than one map, and switch between them when entering doors
-* (      ) Have player show up in spawn locations when entering doors
+* ( done ) Have player show up in spawn locations when starting at a new map
+* ( done ) Have player go to corespoding door location in new map when entering a door.
 * (      ) Expand hall map and start a Mega-R map
+* (      ) figure out a solution for 'double doors'
+* (      ) figure out a 'door slide' solution to help with single doors
 
 * (      ) Have a player sheet, and walking animations
 * (      ) Have objects in maps that the player can pick up
+* (      ) Start a states folder
 ```
