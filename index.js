@@ -29,7 +29,12 @@ class Load extends Phaser.Scene {
 
 class World extends Phaser.Scene {
 
-    setupMap ( mapNum = 1, x=1, y=1 ) {    
+
+    setMapData (mapNum=1) {
+       return this.mapData = this.cache.json.get('map' + mapNum + '_data');
+    }
+
+    setupMap ( mapNum=1, x=1, y=1 ) {    
         if(this.map){
            this.map.destroy();
         }
@@ -39,7 +44,8 @@ class World extends Phaser.Scene {
         const layer = this.layer = map.createLayer(0, tiles, 0, 0);
         layer.depth = -1;
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
-        this.mapData = this.cache.json.get('map' + mapNum + '_data');
+        //this.mapData = this.cache.json.get('map' + mapNum + '_data');
+        this.setMapData(mapNum);
         this.children.sortByDepth(this.player, this.map);
         this.physics.world.colliders.removeAll();
         this.physics.add.collider(this.player, this.layer);
@@ -79,7 +85,8 @@ class World extends Phaser.Scene {
                
                // new map data
                this.doorDisable = true;
-               this.mapData = this.cache.json.get('map' + d.to.mapNum + '_data');
+               //this.mapData = this.cache.json.get('map' + d.to.mapNum + '_data');
+               this.setMapData(d.to.mapNum);
                const d_new = this.mapData.doors[d.to.doorIndex];
                this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
            }   
@@ -95,8 +102,6 @@ class World extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
      
      
-        //const x = 16 * 2 + 8;
-        //const y = 16 * 2 + 8;
         
         this.player = this.physics.add.sprite(0, 0, 'map_16_16');
         this.player.setCollideWorldBounds(true);
@@ -105,8 +110,10 @@ class World extends Phaser.Scene {
      
         this.doorDisable = false;
      
-        // map
-        this.setupMap(2);
+        // start map
+        const startMap = 1;
+        const md = this.setMapData(startMap);
+        this.setupMap(startMap, md.spawnAt.x, md.spawnAt.y);
             
         
         
