@@ -19,6 +19,9 @@ class Load extends Phaser.Scene {
         
         this.load.json('map2_data', 'maps/map2_data.json');
         this.load.tilemapCSV('map2', 'maps/map2.csv');
+        
+        this.load.json('map3_data', 'maps/map3_data.json');
+        this.load.tilemapCSV('map3', 'maps/map3.csv');
     
     }
     
