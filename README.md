@@ -17,11 +17,14 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Have player go to corespoding door location in new map when entering a door.
 * ( done ) Have a player sheet
 * ( done ) figure out a 'door slide' solution to help with single doors
+
+* (      ) Expand hall map and start a Mega-R map
 * (      ) Finish work on 'door slide feature'
 * (      ) Pull door slide feature into its own function
 * (      ) See about having a single door loop
+* (      ) Get 'door slide' feature to work with 1x1 openings in general
 
-* (      ) Expand hall map and start a Mega-R map
+
 * (      ) figure out a solution for 'double doors'
 
 * (      ) Have objects in maps that the player can pick up

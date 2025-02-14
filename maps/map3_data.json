@@ -1,0 +1,21 @@
+{
+  "name": "Mega_R",
+  "spawnAt": {
+     "x": 2,
+     "y": 2
+  },
+  "doors" : [
+    {
+      "desc": "The east entertence to Mega R",
+      "position":{
+        "x": 0,
+        "y": 0
+      },
+      "to": {
+        "map": "Trip_Hallway",
+        "mapNum": 2,
+        "doorIndex": 2 
+      }
+    }
+  ]
+}

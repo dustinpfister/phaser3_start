@@ -1,15 +1,15 @@
 {
   "name": "Trip_Hallway",
   "spawnAt": {
-     "x": 7,
-     "y": 4
+     "x": 37,
+     "y": 7
   },
   "doors" : [
     {   
       "desc": "The front east door to Mega-T",
       "position":{
         "x": 6,
-        "y": 7
+        "y": 14
       },
       "to": {
         "map": "Mega_T",
@@ -21,11 +21,23 @@
       "desc": "The front west door to Mega-T",
       "position":{
         "x": 33,
-        "y": 7
+        "y": 14
       },
       "to": {
         "map": "Mega_T",
         "mapNum": 1,
+        "doorIndex": 1
+      }
+    },
+    {   
+      "desc": "The west door to Mega-R",
+      "position":{
+        "x": 41,
+        "y": 6
+      },
+      "to": {
+        "map": "Mega_R",
+        "mapNum": 3,
         "doorIndex": 1
       }
     }
