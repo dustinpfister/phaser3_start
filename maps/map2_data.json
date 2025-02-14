@@ -1,7 +1,7 @@
 {
   "name": "Trip_Hallway",
   "spawnAt": {
-     "x": 6,
+     "x": 7,
      "y": 4
   },
   "doors" : [

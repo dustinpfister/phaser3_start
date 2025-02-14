@@ -69,6 +69,7 @@ class World extends Phaser.Scene {
                    break;
                }
            }
+           return;
        }
        let i = doors.length;
        while(i-- && !this.doorDisable){
@@ -79,7 +80,43 @@ class World extends Phaser.Scene {
                this.setMapData(d.to.mapNum);
                const d_new = this.mapData.doors[d.to.doorIndex];
                this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
-           }   
+               return;
+           }
+           // door slide feature
+           const x1 = this.player.x;
+           const y1 = this.player.y;
+           const x2 = p.x * 16 + 8;
+           const y2 = p.y * 16 + 8;
+           const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
+           const a = Phaser.Math.Angle.Between(x1,y1,x2,y2);
+           if(dist < 16 * 2){
+               
+               let a1 = Math.PI * 0.5;
+               let a2 = a1 + 1.0;
+               let a3 = a1 - 1.0;
+               
+               if (this.cursors.down.isDown && a < a2 && a > a3) {
+                   if(a < a1){
+                       this.player.setVelocityX( 100 );
+                   }
+                   if(a > a1){
+                       this.player.setVelocityX( -100 );
+                   }
+               }
+
+               a1 = Math.PI * 0.5 * -1;
+               a2 = a1 + 1.0;
+               a3 = a1 - 1.0;
+               if (this.cursors.up.isDown && a < a2 && a > a3) {
+                   if(a < a1){
+                       this.player.setVelocityX( -100 );
+                   }
+                   if(a > a1){
+                       this.player.setVelocityX( 100 );
+                   }
+               }
+               
+           }
        }
     }
 
