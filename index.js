@@ -4,6 +4,7 @@ class Boot extends Phaser.Scene {
         console.log('Booting \'Phaser Start\'');
         this.scene.start('Load');
     }
+    
 }
 
 class Load extends Phaser.Scene {
@@ -26,7 +27,9 @@ class Load extends Phaser.Scene {
     }
     
     create () {
+    
         this.scene.start('World');
+        
     }
 
 }
