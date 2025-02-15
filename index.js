@@ -57,10 +57,32 @@ class World extends Phaser.Scene {
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
     }
     
+    doorDisabledCheck (playerX, playerY) {
+        if(this.doorDisable){
+           const doors = this.mapData.doors;
+           let i = doors.length;
+           this.doorDisable = false;
+           while(i--){
+               const d = doors[i];
+               const p = d.position;
+               if( playerX === p.x && playerY === p.y ){
+                   this.doorDisable = true;
+                   break;
+               }
+           }
+           return;
+       }  
+    }
+    
     doorCheck () {
+    
        const doors = this.mapData.doors; 
        const playerX = Math.floor( this.player.x / 16); 
-       const playerY = Math.floor( this.player.y / 16); 
+       const playerY = Math.floor( this.player.y / 16);
+       
+       
+       this.doorDisabledCheck(playerX, playerY);
+       /*
        if(this.doorDisable){
            let i = doors.length;
            this.doorDisable = false;
@@ -74,6 +96,8 @@ class World extends Phaser.Scene {
            }
            return;
        }
+       */
+       
        let i = doors.length;
        while(i-- && !this.doorDisable){
            const d = doors[i];
@@ -121,6 +145,7 @@ class World extends Phaser.Scene {
                
            }
        }
+       
     }
 
     create () {
