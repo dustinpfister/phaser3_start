@@ -74,34 +74,33 @@ class World extends Phaser.Scene {
        }  
     }
     
+    doorEnterCheck (i, d, p) {
+        if( this.playerX === p.x && this.playerY === p.y ){
+            this.doorDisable = true;
+            this.setMapData(d.to.mapNum);
+            const d_new = this.mapData.doors[d.to.doorIndex];
+            this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
+            return true;
+        }
+        return false;
+    }
+    
     doorCheck () {
     
        const doors = this.mapData.doors; 
-       //const playerX = Math.floor( this.player.x / 16); 
-       //const playerY = Math.floor( this.player.y / 16);
-       
-       
+
        this.doorDisabledCheck();
-       /*
-       if(this.doorDisable){
-           let i = doors.length;
-           this.doorDisable = false;
-           while(i--){
-               const d = doors[i];
-               const p = d.position;
-               if( playerX === p.x && playerY === p.y ){
-                   this.doorDisable = true;
-                   break;
-               }
-           }
-           return;
-       }
-       */
        
        let i = doors.length;
        while(i-- && !this.doorDisable){
            const d = doors[i];
            const p = d.position;
+           
+           if( this.doorEnterCheck(i,d,p) ){
+               return;
+           }
+           
+           /*
            if( this.playerX === p.x && this.playerY === p.y ){
                this.doorDisable = true;
                this.setMapData(d.to.mapNum);
@@ -109,6 +108,8 @@ class World extends Phaser.Scene {
                this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
                return;
            }
+           */
+           
            // door slide feature
            const x1 = this.player.x;
            const y1 = this.player.y;
