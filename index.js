@@ -164,9 +164,9 @@ class World extends Phaser.Scene {
         
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
         
-        this.text_player.x = this.player.body.position.x - 20;
-        this.text_player.y = this.player.body.position.y - 20;
-        this.text_player.text = Math.floor(this.player.x) + ', ' + Math.floor(this.player.y);
+        this.text_player.x = this.player.body.position.x - 0;
+        this.text_player.y = this.player.body.position.y - 16;
+        this.text_player.text = Math.floor(this.player.x / 16) + ', ' + Math.floor(this.player.y / 16);
         
         this.doorCheck();
         

@@ -9,7 +9,7 @@
       "desc": "The front east door to Mega-T",
       "position":{
         "x": 6,
-        "y": 14
+        "y": 15
       },
       "to": {
         "map": "Mega_T",
@@ -21,7 +21,7 @@
       "desc": "The front west door to Mega-T",
       "position":{
         "x": 33,
-        "y": 14
+        "y": 15
       },
       "to": {
         "map": "Mega_T",
