@@ -85,68 +85,50 @@ class World extends Phaser.Scene {
         return false;
     }
     
-    doorCheck () {
+    slideSet (axis, dir, rad, a, v1, v2) {
+        let a2 = rad + 1.0;
+        let a3 = rad - 1.0;      
+        if (this.cursors[dir].isDown && a < a2 && a > a3) {
+        console.log('must slide!');
+            if(a < rad){
+                this.player['setVelocity' + axis]( v1 );
+            }
+            if(a > rad){
+                this.player['setVelocity' + axis]( v2 );
+            }
+        }
+    }
     
+    doorSlide (i, d, p) {
+        const x1 = this.player.x;
+        const y1 = this.player.y;
+        const x2 = p.x * 16 + 8;
+        const y2 = p.y * 16 + 8;
+        const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
+        const a = Phaser.Math.Angle.Between(x1, y1, x2, y2);  
+        if(dist < 16 * 2){
+        
+            this.slideSet('X', 'down', Math.PI * 0.5, a, 100, -100);
+            this.slideSet('X', 'up', Math.PI * 0.5 * -1, a, -100, 100);
+            
+            this.slideSet('Y', 'right', Math.PI * 0, a, -100, 100);
+            this.slideSet('Y', 'left', Math.PI * -1.0, a, 50, -50);
+               
+        } 
+    }
+    
+    doorCheck () {
        const doors = this.mapData.doors; 
-
        this.doorDisabledCheck();
-       
        let i = doors.length;
        while(i-- && !this.doorDisable){
            const d = doors[i];
            const p = d.position;
-           
            if( this.doorEnterCheck(i,d,p) ){
                return;
            }
-           
-           /*
-           if( this.playerX === p.x && this.playerY === p.y ){
-               this.doorDisable = true;
-               this.setMapData(d.to.mapNum);
-               const d_new = this.mapData.doors[d.to.doorIndex];
-               this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
-               return;
-           }
-           */
-           
-           // door slide feature
-           const x1 = this.player.x;
-           const y1 = this.player.y;
-           const x2 = p.x * 16 + 8;
-           const y2 = p.y * 16 + 8;
-           const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
-           const a = Phaser.Math.Angle.Between(x1,y1,x2,y2);
-           if(dist < 16 * 2){
-               
-               let a1 = Math.PI * 0.5;
-               let a2 = a1 + 1.0;
-               let a3 = a1 - 1.0;
-               
-               if (this.cursors.down.isDown && a < a2 && a > a3) {
-                   if(a < a1){
-                       this.player.setVelocityX( 100 );
-                   }
-                   if(a > a1){
-                       this.player.setVelocityX( -100 );
-                   }
-               }
-
-               a1 = Math.PI * 0.5 * -1;
-               a2 = a1 + 1.0;
-               a3 = a1 - 1.0;
-               if (this.cursors.up.isDown && a < a2 && a > a3) {
-                   if(a < a1){
-                       this.player.setVelocityX( -100 );
-                   }
-                   if(a > a1){
-                       this.player.setVelocityX( 100 );
-                   }
-               }
-               
-           }
+           this.doorSlide(i,d,p);
        }
-       
     }
 
     create () {
