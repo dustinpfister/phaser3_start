@@ -1,11 +1,4 @@
-class Boot extends Phaser.Scene {
-
-    create () {
-        console.log('Booting \'Phaser Start\'');
-        this.scene.start('Load');
-    }
-    
-}
+import { Boot } from './states/boot.js'
 
 class Load extends Phaser.Scene {
 
