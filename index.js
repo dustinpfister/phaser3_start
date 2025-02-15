@@ -57,7 +57,7 @@ class World extends Phaser.Scene {
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
     }
     
-    doorDisabledCheck (playerX, playerY) {
+    doorDisabledCheck () {
         if(this.doorDisable){
            const doors = this.mapData.doors;
            let i = doors.length;
@@ -65,7 +65,7 @@ class World extends Phaser.Scene {
            while(i--){
                const d = doors[i];
                const p = d.position;
-               if( playerX === p.x && playerY === p.y ){
+               if( this.playerX === p.x && this.playerY === p.y ){
                    this.doorDisable = true;
                    break;
                }
@@ -77,11 +77,11 @@ class World extends Phaser.Scene {
     doorCheck () {
     
        const doors = this.mapData.doors; 
-       const playerX = Math.floor( this.player.x / 16); 
-       const playerY = Math.floor( this.player.y / 16);
+       //const playerX = Math.floor( this.player.x / 16); 
+       //const playerY = Math.floor( this.player.y / 16);
        
        
-       this.doorDisabledCheck(playerX, playerY);
+       this.doorDisabledCheck();
        /*
        if(this.doorDisable){
            let i = doors.length;
@@ -102,7 +102,7 @@ class World extends Phaser.Scene {
        while(i-- && !this.doorDisable){
            const d = doors[i];
            const p = d.position;
-           if( playerX === p.x && playerY === p.y ){
+           if( this.playerX === p.x && this.playerY === p.y ){
                this.doorDisable = true;
                this.setMapData(d.to.mapNum);
                const d_new = this.mapData.doors[d.to.doorIndex];
@@ -187,11 +187,14 @@ class World extends Phaser.Scene {
             this.player.setVelocityY( v );
         }
         
+        this.playerX = Math.floor( this.player.x / 16); 
+        this.playerY = Math.floor( this.player.y / 16);
+        
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
         
         this.text_player.x = this.player.body.position.x - 0;
         this.text_player.y = this.player.body.position.y - 16;
-        this.text_player.text = Math.floor(this.player.x / 16) + ', ' + Math.floor(this.player.y / 16);
+        this.text_player.text = this.playerX + ', ' + this.playerY;
         
         this.doorCheck();
         
