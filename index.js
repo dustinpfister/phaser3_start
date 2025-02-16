@@ -83,9 +83,21 @@ class World extends Phaser.Scene {
     
     slideSet (axis, dir, rad, a, v1, v2) {
         let a2 = rad + 1.0;
-        let a3 = rad - 1.0;      
+        let a3 = rad - 1.0;
+        //let a2 = Phaser.Math.Angle.Normalize( rad + 1.0 );
+        
+        //let a3 = Phaser.Math.Angle.Normalize( rad - 1.0 );
+        //let a3 = rad - 1.0;
+        
+        //rad = Phaser.Math.Angle.Normalize(rad);
+        
+        if(dir === 'left'){
+        
+            console.log(rad, a);
+            a2 = Phaser.Math.Angle.Normalize( rad + 1.0 );
+        }
+        
         if (this.cursors[dir].isDown && a < a2 && a > a3) {
-        console.log('must slide!');
             if(a < rad){
                 this.player['setVelocity' + axis]( v1 );
             }
@@ -101,14 +113,16 @@ class World extends Phaser.Scene {
         const x2 = p.x * 16 + 8;
         const y2 = p.y * 16 + 8;
         const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
-        const a = Phaser.Math.Angle.Between(x1, y1, x2, y2);  
+        
+        const a = Phaser.Math.Angle.Between(x1, y1, x2, y2); 
+         
         if(dist < 16 * 2){
         
             this.slideSet('X', 'down', Math.PI * 0.5, a, 100, -100);
             this.slideSet('X', 'up', Math.PI * 0.5 * -1, a, -100, 100);
             
             this.slideSet('Y', 'right', Math.PI * 0, a, -100, 100);
-            this.slideSet('Y', 'left', Math.PI * -1.0, a, 50, -50);
+            this.slideSet('Y', 'left', Math.PI * 1.0 * -1, a, 100, -100);
                
         } 
     }
@@ -139,7 +153,7 @@ class World extends Phaser.Scene {
      
         this.doorDisable = false;
      
-        const startMap = 2;
+        const startMap = 3;
         const md = this.setMapData(startMap);
         this.setupMap(startMap, md.spawnAt.x, md.spawnAt.y);
             
