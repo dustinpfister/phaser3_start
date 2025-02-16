@@ -82,21 +82,16 @@ class World extends Phaser.Scene {
     }
     
     slideSet (axis, dir, rad, a, v1, v2) {
+    
+        if(dir === 'left'){
+            if(a > 0){
+              a = (a + Math.PI * 0.32) * -1
+            }
+        }
+    
         let a2 = rad + 1.0;
         let a3 = rad - 1.0;
-        //let a2 = Phaser.Math.Angle.Normalize( rad + 1.0 );
-        
-        //let a3 = Phaser.Math.Angle.Normalize( rad - 1.0 );
-        //let a3 = rad - 1.0;
-        
-        //rad = Phaser.Math.Angle.Normalize(rad);
-        
-        if(dir === 'left'){
-        
-            console.log(rad, a);
-            a2 = Phaser.Math.Angle.Normalize( rad + 1.0 );
-        }
-        
+            
         if (this.cursors[dir].isDown && a < a2 && a > a3) {
             if(a < rad){
                 this.player['setVelocity' + axis]( v1 );
@@ -105,6 +100,7 @@ class World extends Phaser.Scene {
                 this.player['setVelocity' + axis]( v2 );
             }
         }
+        
     }
     
     doorSlide (i, d, p) {
@@ -119,8 +115,7 @@ class World extends Phaser.Scene {
         if(dist < 16 * 2){
         
             this.slideSet('X', 'down', Math.PI * 0.5, a, 100, -100);
-            this.slideSet('X', 'up', Math.PI * 0.5 * -1, a, -100, 100);
-            
+            this.slideSet('X', 'up', Math.PI * 0.5 * -1, a, -100, 100);    
             this.slideSet('Y', 'right', Math.PI * 0, a, -100, 100);
             this.slideSet('Y', 'left', Math.PI * 1.0 * -1, a, 100, -100);
                
