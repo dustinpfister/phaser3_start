@@ -25,9 +25,10 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Start a states folder
 * ( done ) Have a Load state
 * ( done ) Have a World state
+* ( done ) see about having objects that take up two slots and have the player be able to go under one of them
 
 * (      ) addtional tiles for work tables, counters, computers and other fixed objects
-* (      ) see about having objects that take up two slots and have the player be able to go under one of them
+
 
 * (      ) Have additional people in the game
 * (      ) get together a solution for path detection

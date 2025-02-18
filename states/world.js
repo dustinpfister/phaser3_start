@@ -21,13 +21,20 @@ class World extends Phaser.Scene {
         x = x === undefined ? md.spawnAt.x : x;
         y = y === undefined ? md.spawnAt.y : y;
         
-        const map = this.map = this.make.tilemap({ key: 'map' + startMap, tileWidth: 16, tileHeight: 16 }); 
-        map.setCollision( [ 0, 2] );
+        const map = this.map = this.make.tilemap({ key: 'map' + startMap, layers:[], tileWidth: 16, tileHeight: 16 }); 
+        map.setCollision( [ 0, 2, 30] );
         const tiles = map.addTilesetImage('map_16_16');
         
         // layer 0 will be used for collider cells
-        const layer0 =  map.createLayer(0, tiles, 0, 0);
+        const layer0 =  map.createLayer(0, tiles);
         layer0.depth = 0;
+        
+        //const layer0 = map.createBlankLayer('layer0', tiles);
+        //layer0.depth = 0;        
+        //const data0 = this.cache.tilemap.entries.entries['map' + startMap];
+        //layer0.putTilesAt(data0, 0, 0, true)
+        //console.log(  )
+
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         this.setMapData( startMap );
         this.children.sortByDepth(this.player, this.map);
@@ -36,7 +43,15 @@ class World extends Phaser.Scene {
         this.player.x = Math.floor( x * 16 + 8); 
         this.player.y = Math.floor( y * 16 + 8);
         
+        // layer1 will be used for tiles that should be renderd above a sprite
+        const layer1 = map.createBlankLayer('layer1', tiles);
+        layer1.depth = 2;
         
+        layer1.putTileAt(20, 10, 32)
+        
+        console.log(layer1);
+        
+        //console.log(map.layers)
         
     }
     
