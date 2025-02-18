@@ -12,30 +12,32 @@ class World extends Phaser.Scene {
        return this.mapData = this.cache.json.get('map' + mapNum + '_data');
     }
 
-    setupMap ( startMap=1 ) {    
+    setupMap ( startMap=1, x=undefined, y=undefined ) {    
         if(this.map){
            this.map.destroy();
         }
         
         const md = this.setMapData( startMap );
-        const x = md.spawnAt.x;
-        const y = md.spawnAt.y;
+        x = x === undefined ? md.spawnAt.x : x;
+        y = y === undefined ? md.spawnAt.y : y;
         
         const map = this.map = this.make.tilemap({ key: 'map' + startMap, tileWidth: 16, tileHeight: 16 }); 
         map.setCollision( [ 0, 2] );
         const tiles = map.addTilesetImage('map_16_16');
         
-        const layer1 =  map.createLayer(0, tiles, 0, 0);
-        layer1.depth = 0;
+        // layer 0 will be used for collider cells
+        const layer0 =  map.createLayer(0, tiles, 0, 0);
+        layer0.depth = 0;
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         this.setMapData( startMap );
         this.children.sortByDepth(this.player, this.map);
         this.physics.world.colliders.removeAll();
-        this.physics.add.collider(this.player, layer1);
+        this.physics.add.collider(this.player, layer0);
         this.player.x = Math.floor( x * 16 + 8); 
         this.player.y = Math.floor( y * 16 + 8);
         
-        this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
+        
+        //this.camera.setZoom(1.0).centerOn(this.player.x, this.player.y);
     }
     
     doorDisabledCheck () {
@@ -158,7 +160,7 @@ class World extends Phaser.Scene {
         this.playerX = Math.floor( this.player.x / 16); 
         this.playerY = Math.floor( this.player.y / 16);
         
-        this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
+        this.camera.setZoom(1.0).centerOn(this.player.x, this.player.y);
         
         this.text_player.x = this.player.body.position.x - 0;
         this.text_player.y = this.player.body.position.y - 16;
