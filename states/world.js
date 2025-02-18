@@ -1,5 +1,12 @@
 class World extends Phaser.Scene {
 
+    createPlayer () {
+        this.player = this.physics.add.sprite(0, 0, 'people_16_16');
+        this.player.setCollideWorldBounds(true);
+        this.player.depth = 2;
+        this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
+        this.text_player.depth = 1;   
+    }
 
     setMapData (mapNum=1) {
        return this.mapData = this.cache.json.get('map' + mapNum + '_data');
@@ -12,13 +19,14 @@ class World extends Phaser.Scene {
         const map = this.map = this.make.tilemap({ key: 'map' + mapNum, tileWidth: 16, tileHeight: 16 }); 
         map.setCollision( [ 0, 2] );
         const tiles = map.addTilesetImage('map_16_16');
-        const layer = this.layer = map.createLayer(0, tiles, 0, 0);
-        layer.depth = -1;
+        
+        const layer1 =  map.createLayer(0, tiles, 0, 0);
+        layer1.depth = 0;
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         this.setMapData(mapNum);
         this.children.sortByDepth(this.player, this.map);
         this.physics.world.colliders.removeAll();
-        this.physics.add.collider(this.player, this.layer);
+        this.physics.add.collider(this.player, layer1);
         this.player.x = Math.floor( x * 16 + 8); 
         this.player.y = Math.floor( y * 16 + 8);
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
@@ -106,25 +114,22 @@ class World extends Phaser.Scene {
            this.doorSlide(i,d,p);
        }
     }
-
+    
     create () {
     
         const camera = this.camera = this.cameras.main;
         
         this.cursors = this.input.keyboard.createCursorKeys();
      
-        this.player = this.physics.add.sprite(0, 0, 'people_16_16');
-        this.player.setCollideWorldBounds(true);
-        this.player.depth = 2;
+        this.createPlayer();
      
         this.doorDisable = false;
      
-        const startMap = 3;
+        const startMap = 1;
         const md = this.setMapData(startMap);
         this.setupMap(startMap, md.spawnAt.x, md.spawnAt.y);
             
-        this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
-        this.text_player.depth = 1;
+
              
     }
     update () {
