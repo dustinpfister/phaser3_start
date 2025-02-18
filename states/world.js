@@ -37,7 +37,7 @@ class World extends Phaser.Scene {
         this.player.y = Math.floor( y * 16 + 8);
         
         
-        //this.camera.setZoom(1.0).centerOn(this.player.x, this.player.y);
+        
     }
     
     doorDisabledCheck () {
@@ -160,7 +160,7 @@ class World extends Phaser.Scene {
         this.playerX = Math.floor( this.player.x / 16); 
         this.playerY = Math.floor( this.player.y / 16);
         
-        this.camera.setZoom(1.0).centerOn(this.player.x, this.player.y);
+        this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
         
         this.text_player.x = this.player.body.position.x - 0;
         this.text_player.y = this.player.body.position.y - 16;
