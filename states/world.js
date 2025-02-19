@@ -47,11 +47,20 @@ class World extends Phaser.Scene {
         const layer1 = map.createBlankLayer('layer1', tiles);
         layer1.depth = 2;
         
-        layer1.putTileAt(20, 10, 32)
+        //layer1.putTileAt(20, 10, 32)
         
-        console.log(layer1);
+        //console.log(layer1);
         
         //console.log(map.layers)
+        layer0.setInteractive();
+        layer0.on('pointerdown', (pointer)=>{
+        
+            const tx = Math.floor( pointer.worldX / 16 );
+            const ty = Math.floor( pointer.worldY / 16 );
+       
+            console.log(tx, ty);
+        
+        })
         
     }
     
