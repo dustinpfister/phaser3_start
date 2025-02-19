@@ -53,14 +53,33 @@ class World extends Phaser.Scene {
         
         //console.log(map.layers)
         layer0.setInteractive();
+        const game = this;
+        const player = this.player;
         layer0.on('pointerdown', (pointer)=>{
         
             const tx = Math.floor( pointer.worldX / 16 );
             const ty = Math.floor( pointer.worldY / 16 );
        
-            console.log(tx, ty);
+       
+            const a = Math.atan2(pointer.worldY - player.y, pointer.worldX - player.x );
+            const px = Math.cos(a) * 100;
+            const py = Math.sin(a) * 100;
+       
+            player.setVelocityX(px);
+            player.setVelocityY(py);
+            
+            game.data.mouseDown = true;
+            
+            console.log(game.data	);
+            
+       
         
-        })
+        });
+        
+        layer0.on('pointerup', (pointer)=>{
+            player.setVelocity(0);  
+            game.data.mouseDown = false;
+        });
         
     }
     
@@ -166,7 +185,11 @@ class World extends Phaser.Scene {
     
         this.player.setFrame('pl_down');
     
-        this.player.setVelocity(0);
+        if(!this.data.mouseDown){
+            this.player.setVelocity(0);
+        }
+        
+        
         const v = 100;     
         if (this.cursors.left.isDown) {
             this.player.setVelocityX( v * -1 );
