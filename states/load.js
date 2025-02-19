@@ -17,6 +17,15 @@ class Load extends Phaser.Scene {
         this.load.json('map3_data', 'maps/map3_data.json');
         this.load.tilemapCSV('map3', 'maps/map3.csv');
     
+    /*
+        this.load.plugin({
+           key: 'pathFinderPlugin',
+           url: 'plugins/pathfinding.js'
+        })
+    */
+    console.log('loading');
+    console.log(this.load)
+    
     }
     
     create () {
