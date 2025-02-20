@@ -38,9 +38,7 @@ class Load extends Phaser.Scene {
     
     create () {
     
-        const pathFinder = this.plugins.get('PathFinderPlugin');
-        
-        console.log(pathFinder);
+
     
         this.scene.start('World');
               

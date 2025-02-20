@@ -55,22 +55,41 @@ class World extends Phaser.Scene {
         layer0.setInteractive();
         const game = this;
         const player = this.player;
+        
+        const pathFinder = this.plugins.get('PathFinderPlugin');
+        
+        
+pathFinder.setGrid(map.layers[0].data, [1]);
+       
+        
         layer0.on('pointerdown', (pointer)=>{
         
             const tx = Math.floor( pointer.worldX / 16 );
             const ty = Math.floor( pointer.worldY / 16 );
        
+            
+            pathFinder.setCallbackFunction(function(path) {
+        
+        
+                
+                console.log(path);
+        
+            });
+            pathFinder.preparePathCalculation([game.playerX,game.playerY], [tx, ty]);
+            pathFinder.calculatePath();
+        
        
-            const a = Math.atan2(pointer.worldY - player.y, pointer.worldX - player.x );
-            const px = Math.cos(a) * 100;
-            const py = Math.sin(a) * 100;
        
-            player.setVelocityX(px);
-            player.setVelocityY(py);
+            //const a = Math.atan2(pointer.worldY - player.y, pointer.worldX - player.x );
+            //const px = Math.cos(a) * 100;
+            //const py = Math.sin(a) * 100;
+       
+            //player.setVelocityX(px);
+            //player.setVelocityY(py);
             
             game.data.mouseDown = true;
             
-            console.log(game.data	);
+            //console.log(game.data	);
             
        
         
