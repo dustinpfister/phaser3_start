@@ -4,6 +4,8 @@ class Load extends Phaser.Scene {
     
         this.load.setBaseURL('./');
         
+                this.load.plugin('RandomNamePlugin', 'plugins/rnd_name.js', true);
+        
         this.load.image('map_16_16', 'sheets/map_16_16.png');
         
         this.load.atlas('people_16_16', 'sheets/people_16_16.png', 'sheets/people_16_16_atlas.json');
@@ -16,6 +18,8 @@ class Load extends Phaser.Scene {
         
         this.load.json('map3_data', 'maps/map3_data.json');
         this.load.tilemapCSV('map3', 'maps/map3.csv');
+        
+
     
     /*
         this.load.plugin({
@@ -35,6 +39,10 @@ class Load extends Phaser.Scene {
     }
     
     create () {
+    
+        let plugin = this.plugins.get('RandomNamePlugin');
+        
+        console.log( plugin.getNames(10) );
     
         this.scene.start('World');
               
