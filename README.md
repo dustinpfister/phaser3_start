@@ -26,10 +26,11 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Have a Load state
 * ( done ) Have a World state
 * ( done ) see about having objects that take up two slots and have the player be able to go under one of them
+* ( done ) use point and click to move player
+* ( done ) Work out basics of loading plugins
 
-* (      ) use point and click to move player
-* (      ) get together a solution for path detection
 
+* (      ) get together a working solution for path detection
 
 * (      ) add above sprite layer data to the json data for maps
 * (      ) additional tiles for work tables

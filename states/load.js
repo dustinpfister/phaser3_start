@@ -5,6 +5,9 @@ class Load extends Phaser.Scene {
         this.load.setBaseURL('./');
         
                 this.load.plugin('RandomNamePlugin', 'plugins/rnd_name.js', true);
+                
+                this.load.plugin('PathFinderPlugin', 'plugins/pathfinding.js', true)
+                
         
         this.load.image('map_16_16', 'sheets/map_16_16.png');
         
@@ -21,12 +24,7 @@ class Load extends Phaser.Scene {
         
 
     
-    /*
-        this.load.plugin({
-           key: 'pathFinderPlugin',
-           url: 'plugins/pathfinding.js'
-        })
-    */
+
     
     this.load.on(Phaser.Loader.Events.PROGRESS, (progress) => {
     
@@ -40,9 +38,9 @@ class Load extends Phaser.Scene {
     
     create () {
     
-        let plugin = this.plugins.get('RandomNamePlugin');
+        const pathFinder = this.plugins.get('PathFinderPlugin');
         
-        console.log( plugin.getNames(10) );
+        console.log(pathFinder);
     
         this.scene.start('World');
               
