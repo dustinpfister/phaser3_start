@@ -23,8 +23,14 @@ class Load extends Phaser.Scene {
            url: 'plugins/pathfinding.js'
         })
     */
+    
+    this.load.on(Phaser.Loader.Events.PROGRESS, (progress) => {
+    
+        console.log(progress)
+    })
+    
     console.log('loading');
-    console.log(this.load)
+    console.log(Phaser.Loader.Events)
     
     }
     
