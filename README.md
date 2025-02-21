@@ -32,9 +32,14 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Have a working basic load screen using graphics
 * ( done ) Use path detection for player movement
 
+
+
 * (      ) additional tiles for work tables
 * (      ) additional tiles for counters
 * (      ) add above sprite layer data to the json data for maps
+
+
+* (      ) start a main menu state
 
 * (      ) Have additional people in the game
 * (      ) Have other people move around

@@ -196,8 +196,6 @@ class World extends Phaser.Scene {
             
             const at_pos = this.player.x === tx && this.player.y === ty;
             
-            //const at_pos = pos.x === this.playerX && pos.y === this.playerY;
-            
             if(at_pos){   
                 this.player.data.path = path.slice(1, pos.length);
                 console.log('yes');
@@ -221,27 +219,18 @@ class World extends Phaser.Scene {
                   vy = -200;
                }
                
-               
                this.player.setVelocityX( vx );
                this.player.setVelocityY( vy );
                
                const d = Phaser.Math.Distance.Between(tx,ty, this.player.x, this.player.y);
                
-               if(d <= 5){
-               
-                   console.log(d);
-                   
+               if(d <= 8){
                    this.player.x = tx;
                    this.player.y = ty;
-                   
                    this.player.setVelocity(0);
-               
                }
                
-               
             }
-        
-            //console.log(pos.x, pos.y);
         
         }
         
