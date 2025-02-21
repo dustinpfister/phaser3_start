@@ -28,20 +28,17 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) see about having objects that take up two slots and have the player be able to go under one of them
 * ( done ) use point and click to move player
 * ( done ) Work out basics of loading plugins
+* ( done ) get together a working solution for path detection
+* ( done ) Have a working basic load screen using graphics
 
+* (      ) Use path detection for player movement
 
-* (      ) get together a working solution for path detection
-
-* (      ) add above sprite layer data to the json data for maps
 * (      ) additional tiles for work tables
-* (      ) additional tiles for
-
-
+* (      ) additional tiles for counters
+* (      ) add above sprite layer data to the json data for maps
 
 * (      ) Have additional people in the game
-
 * (      ) Have other people move around
-
 * (      ) Have objects in maps that the player can pick up
 
 * (      ) Get 'door slide' feature to work with 1x1 openings in general
