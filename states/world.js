@@ -4,6 +4,9 @@ class World extends Phaser.Scene {
         this.player = this.physics.add.sprite(0, 0, 'people_16_16');
         this.player.setCollideWorldBounds(true);
         this.player.depth = 2;
+        this.player.data = {
+            path: []
+        };
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
         this.text_player.depth = 1;   
     }
@@ -28,13 +31,6 @@ class World extends Phaser.Scene {
         // layer 0 will be used for collider cells
         const layer0 =  map.createLayer(0, tiles);
         layer0.depth = 0;
-        
-        //const layer0 = map.createBlankLayer('layer0', tiles);
-        //layer0.depth = 0;        
-        //const data0 = this.cache.tilemap.entries.entries['map' + startMap];
-        //layer0.putTilesAt(data0, 0, 0, true)
-        //console.log(  )
-
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         this.setMapData( startMap );
         this.children.sortByDepth(this.player, this.map);
@@ -49,19 +45,14 @@ class World extends Phaser.Scene {
         
         //layer1.putTileAt(20, 10, 32)
         
-        //console.log(layer1);
-        
-        //console.log(map.layers)
         layer0.setInteractive();
         const game = this;
         const player = this.player;
         
         const pathFinder = this.plugins.get('PathFinderPlugin');
         
-        
-pathFinder.setGrid(map.layers[0].data, [1]);
+        pathFinder.setGrid(map.layers[0].data, [1]);
        
-        
         layer0.on('pointerdown', (pointer)=>{
         
             const tx = Math.floor( pointer.worldX / 16 );
@@ -70,29 +61,14 @@ pathFinder.setGrid(map.layers[0].data, [1]);
             
             pathFinder.setCallbackFunction(function(path) {
         
-        
-                
-                console.log(path);
+                player.data.path = path;
         
             });
             pathFinder.preparePathCalculation([game.playerX,game.playerY], [tx, ty]);
             pathFinder.calculatePath();
-        
-       
-       
-            //const a = Math.atan2(pointer.worldY - player.y, pointer.worldX - player.x );
-            //const px = Math.cos(a) * 100;
-            //const py = Math.sin(a) * 100;
-       
-            //player.setVelocityX(px);
-            //player.setVelocityY(py);
             
             game.data.mouseDown = true;
             
-            //console.log(game.data	);
-            
-       
-        
         });
         
         layer0.on('pointerup', (pointer)=>{
@@ -208,8 +184,67 @@ pathFinder.setGrid(map.layers[0].data, [1]);
             this.player.setVelocity(0);
         }
         
+        const path = this.player.data.path;
+        if(path.length > 0){
         
-        const v = 100;     
+        
+            const pos = path[0];
+            const tx = pos.x * 16 + 8;
+            const ty = pos.y * 16 + 8;
+            
+            const at_pos = this.player.x === tx && this.player.y === ty;
+            
+            //const at_pos = pos.x === this.playerX && pos.y === this.playerY;
+            
+            if(at_pos){   
+                this.player.data.path = path.slice(1, pos.length);
+                console.log('yes');
+            }
+            
+            if(!at_pos){
+               
+               let vx = 0;
+               let vy = 0;
+               
+               if(tx > this.player.x){
+                  vx = 100;
+               }
+               if(tx < this.player.x){
+                  vx = -100;
+               }
+               if(ty > this.player.y){
+                  vy = 100;
+               }
+               if(ty < this.player.y){
+                  vy = -100;
+               }
+               
+               
+               this.player.setVelocityX( vx );
+               this.player.setVelocityY( vy );
+               
+               const d = Phaser.Math.Distance.Between(tx,ty, this.player.x, this.player.y);
+               
+               if(d <= 5){
+               
+                   console.log(d);
+                   
+                   this.player.x = tx;
+                   this.player.y = ty;
+                   
+                   this.player.setVelocity(0);
+               
+               }
+               
+               
+            }
+        
+            //console.log(pos.x, pos.y);
+        
+        }
+        
+        // keyboard movement
+        const v = 100; 
         if (this.cursors.left.isDown) {
             this.player.setVelocityX( v * -1 );
         }

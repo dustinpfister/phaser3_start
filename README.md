@@ -30,8 +30,7 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Work out basics of loading plugins
 * ( done ) get together a working solution for path detection
 * ( done ) Have a working basic load screen using graphics
-
-* (      ) Use path detection for player movement
+* ( done ) Use path detection for player movement
 
 * (      ) additional tiles for work tables
 * (      ) additional tiles for counters
