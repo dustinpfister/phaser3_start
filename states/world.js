@@ -49,6 +49,8 @@ class World extends Phaser.Scene {
         const game = this;
         const player = this.player;
         
+        player.data.path = [];
+        
         const pathFinder = this.plugins.get('PathFinderPlugin');
         
         pathFinder.setGrid(map.layers[0].data, [1]);
@@ -207,16 +209,16 @@ class World extends Phaser.Scene {
                let vy = 0;
                
                if(tx > this.player.x){
-                  vx = 100;
+                  vx = 200;
                }
                if(tx < this.player.x){
-                  vx = -100;
+                  vx = -200;
                }
                if(ty > this.player.y){
-                  vy = 100;
+                  vy = 200;
                }
                if(ty < this.player.y){
-                  vy = -100;
+                  vy = -200;
                }
                
                
