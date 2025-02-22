@@ -34,6 +34,7 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) pool of people sprites as a group
 * ( done ) collesion detection for player and people\
 
+* (      ) People should have some friction
 * (      ) Have other people move around
 
 
