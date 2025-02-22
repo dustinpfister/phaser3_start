@@ -31,10 +31,11 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) get together a working solution for path detection
 * ( done ) Have a working basic load screen using graphics
 * ( done ) Use path detection for player movement
-
 * ( done ) pool of people sprites as a group
+* ( done ) collesion detection for player and people\
+
 * (      ) Have other people move around
-* (      ) collesion detection for player and people
+
 
 * (      ) Have objects in maps that the player can pick up
 * (      ) Picked up objects can then be placed down somewhere else in the map

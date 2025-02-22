@@ -54,7 +54,11 @@ class World extends Phaser.Scene {
         this.setMapData( startMap );
         this.children.sortByDepth(this.player, this.map);
         this.physics.world.colliders.removeAll();
-        this.physics.add.collider(this.player, layer0);
+        this.physics.add.collider( this.player, layer0 );
+        this.physics.add.collider( this.people, layer0 );
+        
+        this.physics.add.collider( this.player, this.people );
+        
         this.player.x = Math.floor( x * 16 + 8); 
         this.player.y = Math.floor( y * 16 + 8);
         
