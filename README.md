@@ -31,11 +31,18 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) get together a working solution for path detection
 * ( done ) Have a working basic load screen using graphics
 * ( done ) Use path detection for player movement
-* (      ) pool of people sprites
+
+* ( done ) pool of people sprites as a group
 * (      ) Have other people move around
+* (      ) collesion detection for player and people
+
 * (      ) Have objects in maps that the player can pick up
 * (      ) Picked up objects can then be placed down somewhere else in the map
 * (      ) additional tiles for work tables
 * (      ) additional tiles for counters
 * (      ) add above sprite layer data to the json data for maps
+* (      ) have a standard data object
+* (      ) create player, people objects, ect in standard data object
+* (      ) player tile pos, ect in standard data object
+
 ```

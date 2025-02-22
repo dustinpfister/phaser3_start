@@ -8,7 +8,26 @@ class World extends Phaser.Scene {
             path: []
         };
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
-        this.text_player.depth = 1;   
+        this.text_player.depth = 1;
+        
+        this.player.setFrame('pl_down');
+    }
+    
+    createPeople () {
+    
+        this.people = this.physics.add.group({
+           defaultKey: 'people_16_16',
+           frame: 'pl_down',
+           maxSize: 10,
+           createCallback : (person) => {
+               console.log('create person!');
+               console.log(person)
+               person.depth = 2;
+           }
+        });
+        
+        this.people.get(16 * 15 + 8, 16 * 28 + 8);
+    
     }
 
     setMapData (mapNum=1) {
@@ -170,6 +189,8 @@ class World extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
      
         this.createPlayer();
+        
+        this.createPeople();
      
         this.doorDisable = false;
      
@@ -180,7 +201,7 @@ class World extends Phaser.Scene {
     }
     update () {
     
-        this.player.setFrame('pl_down');
+
     
         if(!this.data.mouseDown){
             this.player.setVelocity(0);
@@ -198,7 +219,6 @@ class World extends Phaser.Scene {
             
             if(at_pos){   
                 this.player.data.path = path.slice(1, pos.length);
-                console.log('yes');
             }
             
             if(!at_pos){
