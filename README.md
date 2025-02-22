@@ -3,13 +3,13 @@
 This is what I have together for a Phaser 3 Game starting point for a top down style game that makes heavy use of tile maps. The goal here is to work out a lot of the basic things that will come up when dealing with tile maps in a game that might have a somewhat large world in which to explore. However sense this is very much a start point I will shy away from writing any game specific logic.
 
 
-## What to get done still
+## R0 of 'Phaser Start' Project
 
 ```
 * ( done ) Use CSV over hard coded data for map
 * ( done ) Go with 16 by 16 for sprite sheets
 * ( done ) display debug info relative to player
-* ( done ) boot, and world scene
+* ( done ) Boot, and world State
 * ( done ) Load State
 * ( done ) Spawn locations in maps using map JSON data files
 * ( done ) Have more than one map, and switch between them when entering doors
@@ -31,24 +31,11 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) get together a working solution for path detection
 * ( done ) Have a working basic load screen using graphics
 * ( done ) Use path detection for player movement
-
-
-
+* (      ) pool of people sprites
+* (      ) Have other people move around
+* (      ) Have objects in maps that the player can pick up
+* (      ) Picked up objects can then be placed down somewhere else in the map
 * (      ) additional tiles for work tables
 * (      ) additional tiles for counters
 * (      ) add above sprite layer data to the json data for maps
-
-
-* (      ) start a main menu state
-
-* (      ) Have additional people in the game
-* (      ) Have other people move around
-* (      ) Have objects in maps that the player can pick up
-
-* (      ) Get 'door slide' feature to work with 1x1 openings in general
-* (      ) See about having a way to enter a door when it is disabled, but the player IS going in the direction to enter
-* (      ) figure out a solution for 'double doors'
-
-
-
 ```
