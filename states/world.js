@@ -20,9 +20,11 @@ class World extends Phaser.Scene {
            frame: 'pl_down',
            maxSize: 10,
            createCallback : (person) => {
-               console.log('create person!');
-               console.log(person)
                person.depth = 2;
+               //person.setFriction(0,1);
+               //person.body.friction.x = 1;
+               //person.body.friction.y = 1;
+               person.body.setDrag(1000,1000)
            }
         });
         
@@ -69,6 +71,8 @@ class World extends Phaser.Scene {
         //layer1.putTileAt(20, 10, 32)
         
         layer0.setInteractive();
+        
+        
         const game = this;
         const player = this.player;
         
@@ -82,10 +86,8 @@ class World extends Phaser.Scene {
         
             const tx = Math.floor( pointer.worldX / 16 );
             const ty = Math.floor( pointer.worldY / 16 );
-       
-            
-            pathFinder.setCallbackFunction(function(path) {
-        
+               
+            pathFinder.setCallbackFunction(function(path) { 
                 player.data.path = path;
         
             });
@@ -195,9 +197,7 @@ class World extends Phaser.Scene {
         this.createPlayer();
         
         this.createPeople();
-     
         this.doorDisable = false;
-     
         const startMap = 1;
         this.setupMap(startMap);  
 
@@ -205,15 +205,12 @@ class World extends Phaser.Scene {
     }
     update () {
     
-
-    
         if(!this.data.mouseDown){
             this.player.setVelocity(0);
         }
         
         const path = this.player.data.path;
         if(path.length > 0){
-        
         
             const pos = path[0];
             const tx = pos.x * 16 + 8;
