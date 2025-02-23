@@ -35,6 +35,22 @@ class World extends Phaser.Scene {
         
     
     }
+    
+    setSpritePath (sprite, map, tx=2, ty=2) {
+        const pathFinder = this.plugins.get('PathFinderPlugin');
+        const game = this;
+        pathFinder.setGrid(map.layers[0].data, [1]);
+        
+           
+            pathFinder.setCallbackFunction(function(path) { 
+                sprite.data.path = path;
+                
+            });
+            pathFinder.preparePathCalculation([game.playerX,game.playerY], [tx, ty]);
+            pathFinder.calculatePath();
+        
+    
+    }
 
     setMapData (mapNum=1) {
        return this.mapData = this.cache.json.get('map' + mapNum + '_data');
@@ -82,21 +98,12 @@ class World extends Phaser.Scene {
         
         player.data.path = [];
         
-        const pathFinder = this.plugins.get('PathFinderPlugin');
-        
-        pathFinder.setGrid(map.layers[0].data, [1]);
-       
         layer0.on('pointerdown', (pointer)=>{
         
             const tx = Math.floor( pointer.worldX / 16 );
             const ty = Math.floor( pointer.worldY / 16 );
-               
-            pathFinder.setCallbackFunction(function(path) { 
-                player.data.path = path;
-                
-            });
-            pathFinder.preparePathCalculation([game.playerX,game.playerY], [tx, ty]);
-            pathFinder.calculatePath();
+            
+            this.setSpritePath(player, map, tx, ty);
             
             game.data.mouseDown = true;
             
@@ -256,8 +263,9 @@ class World extends Phaser.Scene {
         while(i_people--){
             const sprite = people[i_people];
             this.spritePathProcessor( sprite , 30, 1);
-            if(sprite.data.new_path){
+            if(sprite.data.path.length === 0){
             
+                //console.log('yes');
             
             }
         }

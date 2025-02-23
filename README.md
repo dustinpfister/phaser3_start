@@ -37,8 +37,8 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Have a common 'spritePathProcessor' function to use with player, and people
 * ( done ) Fix a bug that happens when clicking a tile that is not walkable
 * ( done ) Have a path array for people
+* ( done ) common setSpritePath function for player and people
 
-* (      ) common setSpritePath function for player and people
 * (      ) logic for createing paths for people sprites
 
 * (      ) Have a groupPathProcessor function
