@@ -22,10 +22,17 @@ class World extends Phaser.Scene {
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
+               person.data = { path:[] };
+               console.log(person.data);
+               
            }
         });
         
-        this.people.get(16 * 15 + 8, 16 * 28 + 8);
+        const sprite = this.people.get(16 * 15 + 8, 16 * 28 + 8);
+        sprite.data.path = [{x:15, y:28 }, {x:16, y:28 }, {x:17, y:28 }, {x:18, y:28 },];
+        
+        
+        
     
     }
 
@@ -86,7 +93,7 @@ class World extends Phaser.Scene {
                
             pathFinder.setCallbackFunction(function(path) { 
                 player.data.path = path;
-        
+                
             });
             pathFinder.preparePathCalculation([game.playerX,game.playerY], [tx, ty]);
             pathFinder.calculatePath();
@@ -202,7 +209,7 @@ class World extends Phaser.Scene {
     }
     
     
-    spritePathProcessor (sprite) {
+    spritePathProcessor (sprite, v=200, min_d=8) {
         if(!sprite.data){
             return;
         }
@@ -219,22 +226,15 @@ class World extends Phaser.Scene {
                 sprite.data.path = path.slice(1, pos.length);
             }
             if(!at_pos){
-               let vx = 0;
-               let vy = 0;
-               if(tx > sprite.x){ vx = 200; }
-               if(tx < sprite.x){
-                  vx = -200;
-               }
-               if(ty > sprite.y){
-                  vy = 200;
-               }
-               if(ty < sprite.y){
-                  vy = -200;
-               }
+               let vx = 0, vy = 0;
+               if(tx > sprite.x){ vx = v;     }
+               if(tx < sprite.x){ vx = v * -1;}
+               if(ty > sprite.y){ vy = v;     }
+               if(ty < sprite.y){ vy = v * -1;}
                sprite.setVelocityX( vx );
                sprite.setVelocityY( vy );
-               const d = Phaser.Math.Distance.Between(tx,ty, sprite.x, sprite.y);
-               if(d <= 8){
+               const d = Phaser.Math.Distance.Between(tx, ty, sprite.x, sprite.y);
+               if(d <= min_d){
                    sprite.x = tx;
                    sprite.y = ty;
                    sprite.setVelocity(0);
@@ -250,6 +250,17 @@ class World extends Phaser.Scene {
         }
         
         this.spritePathProcessor(this.player);
+        
+        const people = this.people.getChildren();
+        let i_people = people.length;
+        while(i_people--){
+        
+            this.spritePathProcessor(people[i_people], 30, 1);
+        
+        }
+        
+        
+        
         
         // keyboard movement
         const v = 100; 
