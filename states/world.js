@@ -18,7 +18,7 @@ class World extends Phaser.Scene {
         this.people = this.physics.add.group({
            defaultKey: 'people_16_16',
            frame: 'pl_down',
-           maxSize: 10,
+           maxSize: 50,
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
@@ -28,9 +28,14 @@ class World extends Phaser.Scene {
            }
         });
         
-        const sprite = this.people.get(16 * 15 + 8, 16 * 28 + 8);
+        //const sprite = this.people.get(16 * 15 + 8, 16 * 28 + 8);
         //sprite.data.path = [{x:15, y:28 }, {x:16, y:28 }, {x:17, y:28 }, {x:18, y:28 },];
         
+    }
+    
+    spawnPerson () {
+    
+    
     }
     
     setSpritePath (sprite, map, tx=2, ty=2) {
@@ -59,11 +64,25 @@ class World extends Phaser.Scene {
     setMapData (mapNum=1) {
        return this.mapData = this.cache.json.get('map' + mapNum + '_data');
     }
+    
+    getRandomMapPos () {
+    
+        const w = this.map.layers[0].width;
+        const h = this.map.layers[0].height;
+    
+        const tx = Math.floor( w * Math.random()  );
+        const ty = Math.floor( h * Math.random()  );
+        
+        return {x: tx, y : ty };
+    
+    }
 
     setupMap ( startMap=1, x=undefined, y=undefined ) {    
         if(this.map){
            this.map.destroy();
         }
+        
+        
         
         const md = this.setMapData( startMap );
         x = x === undefined ? md.spawnAt.x : x;
@@ -216,7 +235,7 @@ class World extends Phaser.Scene {
         const startMap = 1;
         this.setupMap(startMap);
         
-        
+        //this.getRandomMapPos();
 
              
     }
@@ -256,6 +275,8 @@ class World extends Phaser.Scene {
         }
     }
     
+
+    
     update () {
     
         if(!this.data.mouseDown){
@@ -278,6 +299,10 @@ class World extends Phaser.Scene {
             
             }
         }
+        
+        const pos = this.getRandomMapPos();
+        
+        this.people.get(pos.x * 16, pos.y * 16)
         
         
         

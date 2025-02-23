@@ -40,8 +40,10 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) common setSpritePath function for player and people
 * ( done ) logic for createing paths for people sprites
 
-* (      ) Have a groupPathProcessor function
-* (      ) Lib for path processing
+* ( done ) getRandomMapPos function
+
+* (      ) spawn logic for people
+
 ```
 
 ## R1
