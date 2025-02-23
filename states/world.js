@@ -254,9 +254,12 @@ class World extends Phaser.Scene {
         const people = this.people.getChildren();
         let i_people = people.length;
         while(i_people--){
-        
-            this.spritePathProcessor(people[i_people], 30, 1);
-        
+            const sprite = people[i_people];
+            this.spritePathProcessor( sprite , 30, 1);
+            if(sprite.data.new_path){
+            
+            
+            }
         }
         
         
