@@ -29,11 +29,8 @@ class World extends Phaser.Scene {
         });
         
         const sprite = this.people.get(16 * 15 + 8, 16 * 28 + 8);
-        sprite.data.path = [{x:15, y:28 }, {x:16, y:28 }, {x:17, y:28 }, {x:18, y:28 },];
+        //sprite.data.path = [{x:15, y:28 }, {x:16, y:28 }, {x:17, y:28 }, {x:18, y:28 },];
         
-        
-        
-    
     }
     
     setSpritePath (sprite, map, tx=2, ty=2) {
@@ -43,10 +40,17 @@ class World extends Phaser.Scene {
         
            
             pathFinder.setCallbackFunction(function(path) { 
+            
+                path = path || [];
+            
                 sprite.data.path = path;
                 
             });
-            pathFinder.preparePathCalculation([game.playerX,game.playerY], [tx, ty]);
+            
+            const stx = Math.floor( sprite.x / 16 );
+            const sty = Math.floor( sprite.y / 16 );
+            
+            pathFinder.preparePathCalculation([stx, sty], [tx, ty]);
             pathFinder.calculatePath();
         
     
@@ -210,7 +214,9 @@ class World extends Phaser.Scene {
         
         this.doorDisable = false;
         const startMap = 1;
-        this.setupMap(startMap);  
+        this.setupMap(startMap);
+        
+        
 
              
     }
@@ -262,10 +268,13 @@ class World extends Phaser.Scene {
         let i_people = people.length;
         while(i_people--){
             const sprite = people[i_people];
-            this.spritePathProcessor( sprite , 30, 1);
+            this.spritePathProcessor( sprite , 50, 1);
             if(sprite.data.path.length === 0){
             
-                //console.log('yes');
+            
+                const tx = Math.round( 1 + 22 * Math.random()  );
+                const ty = Math.round( 1 + 28 * Math.random()  );
+                this.setSpritePath(sprite, this.map, tx, ty)
             
             }
         }
