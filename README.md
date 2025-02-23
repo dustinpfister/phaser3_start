@@ -33,11 +33,14 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Use path detection for player movement
 * ( done ) pool of people sprites as a group
 * ( done ) collesion detection for player and people\
+* ( done ) people have some drag
 
-* (      ) People should have some friction
 * (      ) Have other people move around
+```
 
+## R1
 
+```
 * (      ) Have objects in maps that the player can pick up
 * (      ) Picked up objects can then be placed down somewhere else in the map
 * (      ) additional tiles for work tables
@@ -46,5 +49,4 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * (      ) have a standard data object
 * (      ) create player, people objects, ect in standard data object
 * (      ) player tile pos, ect in standard data object
-
 ```
