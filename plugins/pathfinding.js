@@ -1,49 +1,32 @@
 // This is based on what I found here
+// PathFinderPlugin License: MIT.
+// Copyright (c) 2013 appsbu-de
 // https://github.com/appsbu-de/phaser_plugin_pathfinding
+// I just made a few changes to get it working with phaser 3
+
+
 (function(){
 
     const EasyStar = {};
 
-
-    // A simple Node that represents a single tile on the grid.
-    // @param {Object} parent The parent node.
-    // @param {Number} x The x position on the grid.
-    // @param {Number} y The y position on the grid.
-    // @param {Number} costSoFar How far this node is in moves*cost from the start.
-    // @param {Number} simpleDistanceToTarget Manhatten distance to the end point.
     EasyStar.Node = function(parent, x, y, costSoFar, simpleDistanceToTarget) {
         this.parent = parent;
         this.x = x;
         this.y = y;
         this.costSoFar = costSoFar;
         this.simpleDistanceToTarget = simpleDistanceToTarget;
-
-	// Best guess distance of a cost using this node
         this.bestGuessDistance = function() {
 	    return this.costSoFar + this.simpleDistanceToTarget;
         }
     };
 
-//Constants
-EasyStar.Node.OPEN_LIST = 0;
-EasyStar.Node.CLOSED_LIST = 1;
-/**
-* This is an improved Priority Queue data type implementation that can be used to sort any object type.
-* It uses a technique called a binary heap.
-* 
-* For more on binary heaps see: http://en.wikipedia.org/wiki/Binary_heap
-* 
-* @param {String} criteria The criteria by which to sort the objects. 
-* This should be a property of the objects you're sorting.
-* 
-* @param {Number} heapType either PriorityQueue.MAX_HEAP or PriorityQueue.MIN_HEAP.
-**/
-EasyStar.PriorityQueue = function(criteria,heapType) {
+    EasyStar.Node.OPEN_LIST = 0;
+    EasyStar.Node.CLOSED_LIST = 1;
+
+    EasyStar.PriorityQueue = function(criteria,heapType) {
 	this.length = 0; //The current length of heap.
 	var queue = [];
 	var isMax = false;
-
-	//Constructor
 	if (heapType==EasyStar.PriorityQueue.MAX_HEAP) {
 		isMax = true;
 	} else if (heapType==EasyStar.PriorityQueue.MIN_HEAP) {
@@ -52,11 +35,6 @@ EasyStar.PriorityQueue = function(criteria,heapType) {
 		throw heapType + " not supported.";
 	}
 
-	/**
-	* Inserts the value into the heap and sorts it.
-	* 
-	* @param value The object to insert into the heap.
-	**/
 	this.insert = function(value) {
 		if (!value.hasOwnProperty(criteria)) {
 			throw "Cannot insert " + value + " because it does not have a property by the name of " + criteria + ".";
@@ -66,20 +44,10 @@ EasyStar.PriorityQueue = function(criteria,heapType) {
 		bubbleUp(this.length-1);
 	}
 
-	/**
-	* Peeks at the highest priority element.
-	*
-	* @return the highest priority element
-	**/
 	this.getHighestPriorityElement = function() {
 		return queue[0];
 	}
 
-	/**
-	* Removes and returns the highest priority element from the queue.
-	*
-	* @return the highest priority element
-	**/
 	this.shiftHighestPriorityElement = function() {
 		if (this.length === 0) {
 			throw ("There are no more elements in your priority queue.");
@@ -175,17 +143,12 @@ EasyStar.PriorityQueue = function(criteria,heapType) {
 	var getRightOf = function(index) {
 		return index*2 + 2;
 	}
-};
+    };
 
-//Constants
-EasyStar.PriorityQueue.MAX_HEAP = 0;
-EasyStar.PriorityQueue.MIN_HEAP = 1;
+    EasyStar.PriorityQueue.MAX_HEAP = 0;
+    EasyStar.PriorityQueue.MIN_HEAP = 1;
 
-/**
- * Represents a single instance of EasyStar.
- * A path that is in the queue to eventually be found.
- */
-EasyStar.instance = function() {
+    EasyStar.instance = function() {
 	this.isDoneCalculating = true;
 	this.pointsToAvoid = {};
 	this.startX;
@@ -195,15 +158,8 @@ EasyStar.instance = function() {
 	this.endY;
 	this.nodeHash = {};
 	this.openList;
-};
-/**
-*	EasyStar.js
-*	github.com/prettymuchbryce/EasyStarJS
-*	Licensed under the MIT license.
-* 
-*	Implementation By Bryce Neal (@prettymuchbryce)
-**/
-EasyStar.js = function() {
+    };
+    EasyStar.js = function() {
 	var STRAIGHT_COST = 10;
 	var DIAGONAL_COST = 14;
 	var pointsToAvoid = {};
@@ -215,13 +171,6 @@ EasyStar.js = function() {
 	var acceptableTiles;
 	var diagonalsEnabled = false;
 
-	/**
-	* Sets the collision grid that EasyStar uses.
-	* 
-	* @param {Array|Number} tiles An array of numbers that represent 
-	* which tiles in your grid should be considered
-	* acceptable, or "walkable".
-	**/
 	this.setAcceptableTiles = function(tiles) {
 		if (tiles instanceof Array) {
 			//Array
@@ -232,26 +181,14 @@ EasyStar.js = function() {
 		}
 	};
 
-	/**
-	 * Enable diagonal pathfinding.
-	 */
 	this.enableDiagonals = function() {
 		diagonalsEnabled = true;
 	}
 
-	/**
-	 * Disable diagonal pathfinding.
-	 */
 	this.disableDiagonals = function() {
 		diagonalsEnabled = false;
 	}
 
-	/**
-	* Sets the collision grid that EasyStar uses.
-	* 
-	* @param {Array} grid The collision grid that this EasyStar instance will read from. 
-	* This should be a 2D Array of Numbers.
-	**/
 	this.setGrid = function(grid) {
 		collisionGrid = grid;
 
@@ -265,67 +202,26 @@ EasyStar.js = function() {
 		}
 	};
 
-	/**
-	* Sets the tile cost for a particular tile type.
-	*
-	* @param {Number} The tile type to set the cost for.
-	* @param {Number} The multiplicative cost associated with the given tile.
-	**/
 	this.setTileCost = function(tileType, cost) {
 		costMap[tileType] = cost;
 	};
 
-	/**
-	* Sets the number of search iterations per calculation. 
-	* A lower number provides a slower result, but more practical if you 
-	* have a large tile-map and don't want to block your thread while
-	* finding a path.
-	* 
-	* @param {Number} iterations The number of searches to prefrom per calculate() call.
-	**/
 	this.setIterationsPerCalculation = function(iterations) {
 		iterationsPerCalculation = iterations;
 	};
 	
-	/**
-	* Avoid a particular point on the grid, 
-	* regardless of whether or not it is an acceptable tile.
-	*
-	* @param {Number} x The x value of the point to avoid.
-	* @param {Number} y The y value of the point to avoid.
-	**/
 	this.avoidAdditionalPoint = function(x, y) {
 		pointsToAvoid[x + "_" + y] = 1;
 	};
 
-	/**
-	* Stop avoiding a particular point on the grid.
-	*
-	* @param {Number} x The x value of the point to stop avoiding.
-	* @param {Number} y The y value of the point to stop avoiding.
-	**/
 	this.stopAvoidingAdditionalPoint = function(x, y) {
 		delete pointsToAvoid[x + "_" + y];
 	};
 
-	/**
-	* Stop avoiding all additional points on the grid.
-	**/
 	this.stopAvoidingAllAdditionalPoints = function() {
 		pointsToAvoid = {};
 	};
 
-	/**
-	* Find a path.
-	* 
-	* @param {Number} startX The X position of the starting point.
-	* @param {Number} startY The Y position of the starting point.
-	* @param {Number} endX The X position of the ending point.
-	* @param {Number} endY The Y position of the ending point.
-	* @param {Function} callback A function that is called when your path
-	* is found, or no path is found.
-	* 
-	**/
 	this.findPath = function(startX, startY ,endX, endY, callback) {
 		//No acceptable tiles were set
 		if (acceptableTiles === undefined) {
@@ -380,12 +276,6 @@ EasyStar.js = function() {
 		instances.push(instance);
 	};
 
-	/**
-	* This method steps through the A* Algorithm in an attempt to
-	* find your path(s). It will search 4 tiles for every calculation.
-	* You can change the number of calculations done in a call by using
-	* easystar.setIteratonsPerCalculation().
-	**/
 	this.calculate = function() {
 		if (instances.length === 0 || collisionGrid === undefined || acceptableTiles === undefined) {
 			return;
@@ -474,7 +364,6 @@ EasyStar.js = function() {
 		}
 	};
 
-	//Private methods follow
 
 	var checkAdjacentNode = function(instance, searchNode, x, y, cost) {
 		var adjacentCoordinateX = searchNode.x+x;
@@ -521,8 +410,6 @@ EasyStar.js = function() {
 		}
 	};
 
-	//Helpers
-
 	var coordinateToNode = function(instance, x, y, parent, cost) {
 		if (instance.nodeHash[x + "_" + y]!==undefined) {
 			return instance.nodeHash[x + "_" + y];
@@ -541,12 +428,8 @@ EasyStar.js = function() {
 	var getDistance = function(x1,y1,x2,y2) {
 		return Math.sqrt(Math.abs(x2-x1)*Math.abs(x2-x1) + Math.abs(y2-y1)*Math.abs(y2-y1)) * STRAIGHT_COST;
 	};
-}
+    }
 
-
-// PathFinderPlugin License: MIT.
-// Copyright (c) 2013 appsbu-de
-// https://github.com/appsbu-de/phaser_plugin_pathfinding
 
 
     const root = this;

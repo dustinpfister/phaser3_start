@@ -21,10 +21,7 @@ class World extends Phaser.Scene {
            maxSize: 10,
            createCallback : (person) => {
                person.depth = 2;
-               //person.setFriction(0,1);
-               //person.body.friction.x = 1;
-               //person.body.friction.y = 1;
-               person.body.setDrag(1000,1000)
+               person.body.setDrag(500, 500);
            }
         });
         
@@ -195,65 +192,64 @@ class World extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
      
         this.createPlayer();
-        
         this.createPeople();
+        
         this.doorDisable = false;
         const startMap = 1;
         this.setupMap(startMap);  
 
              
     }
+    
+    
+    spritePathProcessor (sprite) {
+        if(!sprite.data){
+            return;
+        }
+        const path = sprite.data.path;
+        if(!path){
+            return;
+        }
+        if(path.length > 0){
+            const pos = path[0];
+            const tx = pos.x * 16 + 8;
+            const ty = pos.y * 16 + 8;
+            const at_pos = sprite.x === tx && sprite.y === ty;
+            if(at_pos){   
+                sprite.data.path = path.slice(1, pos.length);
+            }
+            if(!at_pos){
+               let vx = 0;
+               let vy = 0;
+               if(tx > sprite.x){ vx = 200; }
+               if(tx < sprite.x){
+                  vx = -200;
+               }
+               if(ty > sprite.y){
+                  vy = 200;
+               }
+               if(ty < sprite.y){
+                  vy = -200;
+               }
+               sprite.setVelocityX( vx );
+               sprite.setVelocityY( vy );
+               const d = Phaser.Math.Distance.Between(tx,ty, sprite.x, sprite.y);
+               if(d <= 8){
+                   sprite.x = tx;
+                   sprite.y = ty;
+                   sprite.setVelocity(0);
+               }  
+            }
+        }
+    }
+    
     update () {
     
         if(!this.data.mouseDown){
             this.player.setVelocity(0);
         }
         
-        const path = this.player.data.path;
-        if(path.length > 0){
-        
-            const pos = path[0];
-            const tx = pos.x * 16 + 8;
-            const ty = pos.y * 16 + 8;
-            
-            const at_pos = this.player.x === tx && this.player.y === ty;
-            
-            if(at_pos){   
-                this.player.data.path = path.slice(1, pos.length);
-            }
-            
-            if(!at_pos){
-               
-               let vx = 0;
-               let vy = 0;
-               
-               if(tx > this.player.x){
-                  vx = 200;
-               }
-               if(tx < this.player.x){
-                  vx = -200;
-               }
-               if(ty > this.player.y){
-                  vy = 200;
-               }
-               if(ty < this.player.y){
-                  vy = -200;
-               }
-               
-               this.player.setVelocityX( vx );
-               this.player.setVelocityY( vy );
-               
-               const d = Phaser.Math.Distance.Between(tx,ty, this.player.x, this.player.y);
-               
-               if(d <= 8){
-                   this.player.x = tx;
-                   this.player.y = ty;
-                   this.player.setVelocity(0);
-               }
-               
-            }
-        
-        }
+        this.spritePathProcessor(this.player);
         
         // keyboard movement
         const v = 100; 

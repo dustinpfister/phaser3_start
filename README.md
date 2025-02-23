@@ -34,7 +34,12 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) pool of people sprites as a group
 * ( done ) collesion detection for player and people\
 * ( done ) people have some drag
+* ( done ) Have a common 'spritePathProcessor' function to use with player, and people
+* ( done ) Fix a bug that happens when clicking a tile that is not walkable
 
+* (      ) Have a path array and logic for createing paths for people sprites
+
+* (      ) Have a groupPathProcessor function
 * (      ) Have other people move around
 ```
 
