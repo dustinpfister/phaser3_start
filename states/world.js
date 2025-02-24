@@ -8,15 +8,9 @@ class World extends Phaser.Scene {
         this.player = this.physics.add.sprite(0, 0, 'people_16_16');
         this.player.setCollideWorldBounds(true);
         this.player.depth = 2;
-        //this.player.data = {
-        //    path: []
-        //};
-        
         this.player.setData({ path: [] })
-        
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
         this.text_player.depth = 1;
-        
         this.player.setFrame('pl_down');
     }
     
@@ -28,62 +22,23 @@ class World extends Phaser.Scene {
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
-               //person.data = { path:[] };
-               
-               person.setData({ path:[] })
-               
-               //console.log( person.getData('path') )
-                            
+               person.setData({ path:[] })                 
            }
         });
-        
-        //console.log(this.people);
-        /*
-        this.people.addListener('collide', ()=>{
-        
-            console.log('yar');
-        
-        });
-        
-        this.people.on('collide', ()=>{
-        
-            console.log('yar');
-        
-        });
-        
-        this.physics.world.on('collide', ()=>{
-        
-            console.log('YAR!');
-        
-        })
-        */
-        
     }
     
     setSpritePath (sprite, map, tx=2, ty=2) {
         const pathFinder = this.plugins.get('PathFinderPlugin');
         const game = this;
         pathFinder.setGrid(map.layers[0].data, [1]);
-        
-           
-            pathFinder.setCallbackFunction(function(path) { 
-            
-                path = path || [];
-            
-                //sprite.data.path = path;
-                
-                sprite.setData({ path: path })
-                
-                
-            });
-            
-            const stx = Math.floor( sprite.x / 16 );
-            const sty = Math.floor( sprite.y / 16 );
-            
-            pathFinder.preparePathCalculation([stx, sty], [tx, ty]);
-            pathFinder.calculatePath();
-        
-    
+        pathFinder.setCallbackFunction(function(path) { 
+            path = path || [];
+            sprite.setData({ path: path }) 
+        });
+        const stx = Math.floor( sprite.x / 16 );
+        const sty = Math.floor( sprite.y / 16 );
+        pathFinder.preparePathCalculation([stx, sty], [tx, ty]);
+        pathFinder.calculatePath();
     }
 
     setMapData (mapNum=1) {
@@ -91,17 +46,12 @@ class World extends Phaser.Scene {
     }
     
     getRandomMapPos () {
-    
         const w = this.map.layers[0].width;
         const h = this.map.layers[0].height;
-    
         const tx = Math.floor( w * Math.random()  );
         const ty = Math.floor( h * Math.random()  );
-        
         return {x: tx, y : ty };
-    
     }
-    
     
     spawn () {
         const pos = this.mapData.spawnAt;
@@ -120,121 +70,62 @@ class World extends Phaser.Scene {
         if(this.map){
            this.map.destroy();
         }
-        
         const md = this.setMapData( startMap );
         x = x === undefined ? md.spawnAt.x : x;
         y = y === undefined ? md.spawnAt.y : y;
-        
         const map = this.map = this.make.tilemap({ key: 'map' + startMap, layers:[], tileWidth: 16, tileHeight: 16 });
         map.setCollision( [ 0, 2, 30] );
         const tiles = map.addTilesetImage('map_16_16');
-        
-        //if(this.people){
-        
-            //this.people.destroy(true, true);
-        
-        //}
-        
-        //this.createPeople();
-        
-        
         // layer 0 will be used for collider cells
         const layer0 =  map.createLayer(0, tiles);
         layer0.depth = 0;
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
-        
         this.children.sortByDepth(this.player, this.map);
-        
         // colliders
         this.physics.world.colliders.removeAll();
         this.physics.add.collider( this.player, layer0 );
         this.physics.add.collider( this.people, layer0 );
         this.physics.add.collider( this.player, this.people, ()=>{
-        
-            //console.log( 'yar' )
-             
         });
         this.physics.add.collider( this.people, this.people, (a, b)=>{
-        
             b.destroy();
-        
-        
         });
-        
         this.reSpawn(this.player);
-        
         // layer1 will be used for tiles that should be renderd above a sprite
         const layer1 = map.createBlankLayer('layer1', tiles);
         layer1.depth = 2;
-        
         //layer1.putTileAt(20, 10, 32)
-        
         layer0.setInteractive();
-        
-        
         const game = this;
         const player = this.player;
-        
-        //player.data.path = [];
         player.setData({path: [] });
-        
-        
         layer0.on('pointerdown', (pointer)=>{
-        
             const tx = Math.floor( pointer.worldX / 16 );
             const ty = Math.floor( pointer.worldY / 16 );
-            
             const tile = map.getTileAt(tx, ty, false, 0);
-            
             if(tile){
-            
-                //console.log(this.people.runChildUpdate)
-                
                 if(tile.index != 1){
-                
                     const sprite = this.people.getFirst(true, false);
-                    
                     if(sprite){
                         sprite.destroy();
-                        console.log(sprite);
-                    
                     }
-                    
-                    
-                    //this.people.remove(sprite, true, true);
-                    
-                    //console.log(sprite)
-                
-                
-                    //this.people.runChildUpdate = true;
-                
-                    //console.log(this.people.runChildUpdate)
-                
                 }
-                
-            
                 if(tile.index === 1){
                     this.setSpritePath(player, map, tx, ty);
                 }
-            
             }
-            
-            game.data.mouseDown = true;
-            
+            game.data.mouseDown = true; 
         });
-        
         layer0.on('pointerup', (pointer)=>{
             player.setVelocity(0);  
             game.data.mouseDown = false;
         });
-
         const people = this.people.getChildren();
         let i_people = people.length;
         while(i_people--){
             const sprite = people[i_people];
             this.reSpawn(sprite);
         }
-        
     }
     
     doorDisabledCheck () {
@@ -266,16 +157,13 @@ class World extends Phaser.Scene {
     }
     
     slideSet (axis, dir, rad, a, v1, v2) {
-    
         if(dir === 'left'){
             if(a > 0){
               a = (a + Math.PI * 0.32) * -1
             }
         }
-    
         let a2 = rad + 1.0;
-        let a3 = rad - 1.0;
-            
+        let a3 = rad - 1.0;   
         if (this.cursors[dir].isDown && a < a2 && a > a3) {
             if(a < rad){
                 this.player['setVelocity' + axis]( v1 );
@@ -284,7 +172,6 @@ class World extends Phaser.Scene {
                 this.player['setVelocity' + axis]( v2 );
             }
         }
-        
     }
     
     doorSlide (i, d, p) {
@@ -293,16 +180,12 @@ class World extends Phaser.Scene {
         const x2 = p.x * 16 + 8;
         const y2 = p.y * 16 + 8;
         const dist = Phaser.Math.Distance.Between(x1, y1, x2, y2);
-        
         const a = Phaser.Math.Angle.Between(x1, y1, x2, y2); 
-         
         if(dist < 16 * 2){
-        
             this.slideSet('X', 'down', Math.PI * 0.5, a, 100, -100);
             this.slideSet('X', 'up', Math.PI * 0.5 * -1, a, -100, 100);    
             this.slideSet('Y', 'right', Math.PI * 0, a, -100, 100);
             this.slideSet('Y', 'left', Math.PI * 1.0 * -1, a, 100, -100);
-               
         } 
     }
     
@@ -321,27 +204,19 @@ class World extends Phaser.Scene {
     }
     
     create () {
-    
         const camera = this.camera = this.cameras.main;
-        
         this.cursors = this.input.keyboard.createCursorKeys();
-     
         this.createPlayer();
         this.createPeople();
-        
         this.doorDisable = false;
         const startMap = 1;
-        this.setupMap(startMap);
-             
+        this.setupMap(startMap);         
     }
     
-    
     spritePathProcessor (sprite, v=200, min_d=8) {
-    
         if(!sprite.data){
             return;
         }
-        //const path = sprite.data.path;
         const path = sprite.getData('path')
         if(!path){
             return;
@@ -351,8 +226,7 @@ class World extends Phaser.Scene {
             const tx = pos.x * 16 + 8;
             const ty = pos.y * 16 + 8;
             const at_pos = sprite.x === tx && sprite.y === ty;
-            if(at_pos){   
-                //sprite.data.path = path.slice(1, pos.length);
+            if(at_pos){
                 sprite.setData({path: path.slice(1, pos.length) })
             }
             if(!at_pos){
@@ -372,31 +246,22 @@ class World extends Phaser.Scene {
             }
         }
     }
-    
 
-    
     update () {
-    
         if(!this.data.mouseDown){
             this.player.setVelocity(0);
         }
-        
         this.spritePathProcessor(this.player);
-        
         const people = this.people.getChildren();
         let i_people = people.length;
-        
         if(i_people < MAX_PEOPLE){
             this.spawn();
         }
-        
         while(i_people--){
             const sprite = people[i_people];
-            
             if(!sprite){
                 console.log('well that is not good is it');
             }
-            
             const tx = Math.floor(sprite.x / 16);
             const ty = Math.floor(sprite.y / 16);
             const tile = this.map.getTileAt(tx, ty, false, 0);
@@ -404,26 +269,18 @@ class World extends Phaser.Scene {
                 console.log('no tile!?');
                 this.reSpawn(sprite);
             }
-            
             if(tile){
                 if(tile.index != 1){
                     console.log('sprite is not over index 1 tile!');
                     this.reSpawn(sprite);
                 }
             }
-            
-            
             this.spritePathProcessor( sprite, 50, 1);
-            //if(sprite.data.path.length === 0){
             if(sprite.getData('path').length === 0 ){
                 const pos = this.getRandomMapPos();
                 this.setSpritePath(sprite, this.map, pos.x, pos.y);
-            }
-            
-            
-            
+            }       
         }
-        
         // keyboard movement
         const v = 100; 
         if (this.cursors.left.isDown) {
@@ -438,18 +295,13 @@ class World extends Phaser.Scene {
         if (this.cursors.down.isDown) {
             this.player.setVelocityY( v );
         }
-        
         this.playerX = Math.floor( this.player.x / 16); 
         this.playerY = Math.floor( this.player.y / 16);
-        
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
-        
         this.text_player.x = this.player.body.position.x - 0;
         this.text_player.y = this.player.body.position.y - 16;
         this.text_player.text = this.playerX + ', ' + this.playerY;
-        
-        this.doorCheck();
-        
+        this.doorCheck();       
     }
 }
 
