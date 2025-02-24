@@ -1,6 +1,6 @@
 
 
-const MAX_PEOPLE = 5;
+const MAX_PEOPLE = 10;
 
 class World extends Phaser.Scene {
 
@@ -36,6 +36,28 @@ class World extends Phaser.Scene {
                             
            }
         });
+        
+        //console.log(this.people);
+        /*
+        this.people.addListener('collide', ()=>{
+        
+            console.log('yar');
+        
+        });
+        
+        this.people.on('collide', ()=>{
+        
+            console.log('yar');
+        
+        });
+        
+        this.physics.world.on('collide', ()=>{
+        
+            console.log('YAR!');
+        
+        })
+        */
+        
     }
     
     setSpritePath (sprite, map, tx=2, ty=2) {
@@ -107,11 +129,11 @@ class World extends Phaser.Scene {
         map.setCollision( [ 0, 2, 30] );
         const tiles = map.addTilesetImage('map_16_16');
         
-        if(this.people){
+        //if(this.people){
         
             //this.people.destroy(true, true);
         
-        }
+        //}
         
         //this.createPeople();
         
@@ -122,14 +144,24 @@ class World extends Phaser.Scene {
         this.physics.world.setBounds(0,0, map.widthInPixels, map.heightInPixels);
         
         this.children.sortByDepth(this.player, this.map);
+        
+        // colliders
         this.physics.world.colliders.removeAll();
         this.physics.add.collider( this.player, layer0 );
         this.physics.add.collider( this.people, layer0 );
+        this.physics.add.collider( this.player, this.people, ()=>{
         
-        this.physics.add.collider( this.player, this.people );
+            //console.log( 'yar' )
+             
+        });
+        this.physics.add.collider( this.people, this.people, (a, b)=>{
         
-        this.player.x = Math.floor( x * 16 + 8); 
-        this.player.y = Math.floor( y * 16 + 8);
+            b.destroy();
+        
+        
+        });
+        
+        this.reSpawn(this.player);
         
         // layer1 will be used for tiles that should be renderd above a sprite
         const layer1 = map.createBlankLayer('layer1', tiles);
@@ -163,6 +195,8 @@ class World extends Phaser.Scene {
                     const sprite = this.people.getFirst(true, false);
                     
                     if(sprite){
+                        sprite.destroy();
+                        console.log(sprite);
                     
                     }
                     
