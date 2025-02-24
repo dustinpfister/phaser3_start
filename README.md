@@ -40,11 +40,11 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) common setSpritePath function for player and people
 * ( done ) logic for createing paths for people sprites
 * ( done ) getRandomMapPos function
+* ( done ) If a person goes out of bounds have them respawn
+* ( done ) Have people spawn at map spawn location
+* ( done ) keep people from spawning into walls, and going to walls
 
-* (      ) If a person goes out of bounds have them respawn
-* (      ) Have people spawn at map spawn location
-
-* (      ) keep people from spawning into walls, and going to walls
+* (      ) see if you can get people to stop bunching up on top of each other
 * (      ) when a person hits the player, have them stop for a while, then get a new location to go to
 
 
