@@ -44,6 +44,9 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) Have people spawn at map spawn location
 * ( done ) keep people from spawning into walls, and going to walls
 
+* ( done ) see about using the data manager over just directly seting data objects keys for people
+* ( done ) see about using the data manager for the player sprite
+
 * (      ) see if you can get people to stop bunching up on top of each other
 * (      ) when a person hits the player, have them stop for a while, then get a new location to go to
 

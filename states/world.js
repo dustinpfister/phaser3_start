@@ -1,12 +1,19 @@
+
+
+const MAX_PEOPLE = 5;
+
 class World extends Phaser.Scene {
 
     createPlayer () {
         this.player = this.physics.add.sprite(0, 0, 'people_16_16');
         this.player.setCollideWorldBounds(true);
         this.player.depth = 2;
-        this.player.data = {
-            path: []
-        };
+        //this.player.data = {
+        //    path: []
+        //};
+        
+        this.player.setData({ path: [] })
+        
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
         this.text_player.depth = 1;
         
@@ -17,11 +24,16 @@ class World extends Phaser.Scene {
         this.people = this.physics.add.group({
            defaultKey: 'people_16_16',
            frame: 'pl_down',
-           maxSize: 5,
+           maxSize: MAX_PEOPLE,
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
-               person.data = { path:[] };               
+               //person.data = { path:[] };
+               
+               person.setData({ path:[] })
+               
+               //console.log( person.getData('path') )
+                            
            }
         });
     }
@@ -36,7 +48,10 @@ class World extends Phaser.Scene {
             
                 path = path || [];
             
-                sprite.data.path = path;
+                //sprite.data.path = path;
+                
+                sprite.setData({ path: path })
+                
                 
             });
             
@@ -75,7 +90,8 @@ class World extends Phaser.Scene {
         const pos = this.mapData.spawnAt;
         sprite.x = pos.x * 16 + 8;
         sprite.y = pos.y * 16 + 8;
-        sprite.data.path = [];
+        //sprite.data.path = [];
+        sprite.setData({path:[]})
     }
 
     setupMap ( startMap=1, x=undefined, y=undefined ) {    
@@ -127,14 +143,47 @@ class World extends Phaser.Scene {
         const game = this;
         const player = this.player;
         
-        player.data.path = [];
+        //player.data.path = [];
+        player.setData({path: [] });
+        
         
         layer0.on('pointerdown', (pointer)=>{
         
             const tx = Math.floor( pointer.worldX / 16 );
             const ty = Math.floor( pointer.worldY / 16 );
             
-            this.setSpritePath(player, map, tx, ty);
+            const tile = map.getTileAt(tx, ty, false, 0);
+            
+            if(tile){
+            
+                //console.log(this.people.runChildUpdate)
+                
+                if(tile.index != 1){
+                
+                    const sprite = this.people.getFirst(true, false);
+                    
+                    if(sprite){
+                    
+                    }
+                    
+                    
+                    //this.people.remove(sprite, true, true);
+                    
+                    //console.log(sprite)
+                
+                
+                    //this.people.runChildUpdate = true;
+                
+                    //console.log(this.people.runChildUpdate)
+                
+                }
+                
+            
+                if(tile.index === 1){
+                    this.setSpritePath(player, map, tx, ty);
+                }
+            
+            }
             
             game.data.mouseDown = true;
             
@@ -145,28 +194,11 @@ class World extends Phaser.Scene {
             game.data.mouseDown = false;
         });
 
-
-        //this.createPeople();
-
-        // update people
-            
         const people = this.people.getChildren();
         let i_people = people.length;
         while(i_people--){
             const sprite = people[i_people];
-            
             this.reSpawn(sprite);
-            
-            
-            
-            /*  
-            if(sprite && sprite.body){
-            
-               
-            } 
-            */
-            
-              
         }
         
     }
@@ -266,9 +298,6 @@ class World extends Phaser.Scene {
         this.doorDisable = false;
         const startMap = 1;
         this.setupMap(startMap);
-        
-        //this.getRandomMapPos();
-
              
     }
     
@@ -278,7 +307,8 @@ class World extends Phaser.Scene {
         if(!sprite.data){
             return;
         }
-        const path = sprite.data.path;
+        //const path = sprite.data.path;
+        const path = sprite.getData('path')
         if(!path){
             return;
         }
@@ -288,7 +318,8 @@ class World extends Phaser.Scene {
             const ty = pos.y * 16 + 8;
             const at_pos = sprite.x === tx && sprite.y === ty;
             if(at_pos){   
-                sprite.data.path = path.slice(1, pos.length);
+                //sprite.data.path = path.slice(1, pos.length);
+                sprite.setData({path: path.slice(1, pos.length) })
             }
             if(!at_pos){
                let vx = 0, vy = 0;
@@ -321,12 +352,8 @@ class World extends Phaser.Scene {
         const people = this.people.getChildren();
         let i_people = people.length;
         
-        if(i_people < 50){
-        
-            //this.people.get(pos.x * 16 + 8, pos.y * 16 + 8);
+        if(i_people < MAX_PEOPLE){
             this.spawn();
-        
-        
         }
         
         while(i_people--){
@@ -348,21 +375,13 @@ class World extends Phaser.Scene {
                 if(tile.index != 1){
                     console.log('sprite is not over index 1 tile!');
                     this.reSpawn(sprite);
-                    
-                    //const pos = this.mapData.spawnAt;
-                    //sprite.x = pos.x;
-                    //sprite.y = pos.y;
-                    //sprite.data.path = [];
-                    
-                    
-                 
-                    
                 }
             }
             
             
             this.spritePathProcessor( sprite, 50, 1);
-            if(sprite.data.path.length === 0){
+            //if(sprite.data.path.length === 0){
+            if(sprite.getData('path').length === 0 ){
                 const pos = this.getRandomMapPos();
                 this.setSpritePath(sprite, this.map, pos.x, pos.y);
             }
@@ -370,13 +389,6 @@ class World extends Phaser.Scene {
             
             
         }
-        
-        //const pos = this.getRandomMapPos();
-        
-        //this.people.get(pos.x * 16 + 8, pos.y * 16 + 8);
-        
-        
-        
         
         // keyboard movement
         const v = 100; 
