@@ -56,6 +56,7 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) see if you can get people to stop bunching up on top of each other
 * ( done ) when a person hits the player, get a new location to go to.
 * ( done ) when a person hits another person have them also get a new location
+* ( done ) filter tiles that are not walkable in getRandomMapPos method
 
 * (      ) timed release for the spawning of people
 

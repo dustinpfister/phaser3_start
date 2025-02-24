@@ -51,11 +51,15 @@ class World extends Phaser.Scene {
     }
     
     getRandomMapPos () {
-        const w = this.map.layers[0].width;
-        const h = this.map.layers[0].height;
-        const tx = Math.floor( w * Math.random()  );
-        const ty = Math.floor( h * Math.random()  );
-        return {x: tx, y : ty };
+        //const w = this.map.layers[0].width;
+        //const h = this.map.layers[0].height;
+        //const tx = Math.floor( w * Math.random()  );
+        //const ty = Math.floor( h * Math.random()  );
+        //return {x: tx, y : ty };
+        this.map.setLayer(0);
+        const walkable = this.map.filterTiles((tile)=>{ return tile.index === 1 });
+        const tile = walkable[ Math.floor( walkable.length * Math.random() ) ];
+        return { x: tile.x, y: tile.y };
     }
     
     spawn () {
@@ -244,7 +248,7 @@ class World extends Phaser.Scene {
         this.createPeople();
         this.doorDisable = false;
         const startMap = 1;
-        this.setupMap(startMap);         
+        this.setupMap(startMap);        
     }
     
     spritePathProcessor (sprite, v=200, min_d=8) {
