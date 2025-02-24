@@ -8,7 +8,7 @@
     {   
       "desc": "The front east door to Mega-T",
       "position":{
-        "x": 6,
+        "x": 15,
         "y": 15
       },
       "to": {

@@ -14,7 +14,6 @@ class World extends Phaser.Scene {
     }
     
     createPeople () {
-    
         this.people = this.physics.add.group({
            defaultKey: 'people_16_16',
            frame: 'pl_down',
@@ -22,20 +21,9 @@ class World extends Phaser.Scene {
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
-               person.data = { path:[] };
-               console.log(person.data);
-               
+               person.data = { path:[] };               
            }
         });
-        
-        //const sprite = this.people.get(16 * 15 + 8, 16 * 28 + 8);
-        //sprite.data.path = [{x:15, y:28 }, {x:16, y:28 }, {x:17, y:28 }, {x:18, y:28 },];
-        
-    }
-    
-    spawnPerson () {
-    
-    
     }
     
     setSpritePath (sprite, map, tx=2, ty=2) {
@@ -82,7 +70,14 @@ class World extends Phaser.Scene {
            this.map.destroy();
         }
         
+        //this.people.clear(false, false);
         
+        //const people = this.people.getChildren();
+        //let i_people = people.length;
+        //while(i_people--){
+        //    const sprite = people[i_people];    
+            
+        //}
         
         const md = this.setMapData( startMap );
         x = x === undefined ? md.spawnAt.x : x;
@@ -289,20 +284,34 @@ class World extends Phaser.Scene {
         let i_people = people.length;
         while(i_people--){
             const sprite = people[i_people];
-            this.spritePathProcessor( sprite , 50, 1);
-            if(sprite.data.path.length === 0){
             
-            
-                const tx = Math.round( 1 + 22 * Math.random()  );
-                const ty = Math.round( 1 + 28 * Math.random()  );
-                this.setSpritePath(sprite, this.map, tx, ty)
-            
+            const tx = Math.floor(sprite.x / 16);
+            const ty = Math.floor(sprite.y / 16);
+            const tile = this.map.getTileAt(tx, ty, false, 0);
+            if(!tile){
+                console.log('oh boy we have a problem');
+                
+                //const pos = this.mapData.spawnAt;
+                //sprite.x = pos.x;
+                //sprite.y = pos.y;
+                //sprite.data.path = [];
+                
             }
+            
+            
+            this.spritePathProcessor( sprite, 50, 1);
+            if(sprite.data.path.length === 0){
+                const pos = this.getRandomMapPos();
+                this.setSpritePath(sprite, this.map, pos.x, pos.y);
+            }
+            
+            
+            
         }
         
         const pos = this.getRandomMapPos();
         
-        this.people.get(pos.x * 16, pos.y * 16)
+        this.people.get(pos.x * 16 + 8, pos.y * 16 + 8);
         
         
         

@@ -2,13 +2,13 @@
   "name": "Mega_T",
   "spawnAt": {
      "x": 15,
-     "y": 32
+     "y": 5
   },
   "doors" : [
     {
       "desc": "The front east door to trip hallway",
       "position":{
-        "x": 6,
+        "x": 16,
         "y": 0
       },
       "to": {
