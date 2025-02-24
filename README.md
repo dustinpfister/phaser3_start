@@ -47,9 +47,10 @@ This is what I have together for a Phaser 3 Game starting point for a top down s
 * ( done ) see about using the data manager for the player sprite
 * ( done ) I should be able to have person on person collision detection
 * ( done ) see if you can get people to stop bunching up on top of each other
+* ( done ) when a person hits the player, get a new location to go to.
+* ( done ) when a person hits another person have them also get a new location
 
-* (      ) when a person hits the player, have them stop for a while, then get a new location to go to
-
+* (    ) times release for the spawning of people
 
 ```
 

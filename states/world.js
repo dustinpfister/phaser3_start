@@ -1,6 +1,6 @@
 
 
-const MAX_PEOPLE = 10;
+const MAX_PEOPLE = 20;
 
 class World extends Phaser.Scene {
 
@@ -22,9 +22,14 @@ class World extends Phaser.Scene {
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
-               person.setData({ path:[] })                 
+               person.setData({ path:[], hits: 0 })                 
            }
         });
+    }
+    
+    setRandomSpritePath (sprite) {
+        const pos = this.getRandomMapPos();
+        this.setSpritePath(sprite, this.map, pos.x, pos.y);
     }
     
     setSpritePath (sprite, map, tx=2, ty=2) {
@@ -62,11 +67,12 @@ class World extends Phaser.Scene {
         const pos = this.mapData.spawnAt;
         sprite.x = pos.x * 16 + 8;
         sprite.y = pos.y * 16 + 8;
-        //sprite.data.path = [];
         sprite.setData({path:[]})
     }
 
-    setupMap ( startMap=1, x=undefined, y=undefined ) {    
+    setupMap ( startMap=1, x=undefined, y=undefined ) {
+        const game = this;
+        const player = this.player;
         if(this.map){
            this.map.destroy();
         }
@@ -85,10 +91,40 @@ class World extends Phaser.Scene {
         this.physics.world.colliders.removeAll();
         this.physics.add.collider( this.player, layer0 );
         this.physics.add.collider( this.people, layer0 );
-        this.physics.add.collider( this.player, this.people, ()=>{
+        this.physics.add.collider( this.player, this.people, (a, b)=>{
+            const pos = this.getRandomMapPos();
+            game.setSpritePath(b, map, pos.x, pos.y);
+            const path = [];
+            const px = game.playerX;
+            const py = game.playerY;
+            const tile = map.getTileAt(px, py - 1);
+            if(tile){
+                if(tile.index === 1){
+                    path[0] = { x: px, y: py - 1 };   
+                }
+            }
         });
         this.physics.add.collider( this.people, this.people, (a, b)=>{
-            b.destroy();
+        
+            let hits = b.getData('hits');
+            
+            hits += 1;
+            
+            
+            if(hits >= 50){
+               hits = 0;
+               game.setRandomSpritePath(b);
+               game.setRandomSpritePath(a);
+               //const pos = this.getRandomMapPos();
+               //game.setSpritePath(b, map, pos.x, pos.y);
+            }
+        
+            b.setData({hits: hits});
+            
+        
+            //b.destroy();
+            //const pos = this.getRandomMapPos();
+            //game.setSpritePath(b, map, pos.x, pos.y);
         });
         this.reSpawn(this.player);
         // layer1 will be used for tiles that should be renderd above a sprite
@@ -96,8 +132,6 @@ class World extends Phaser.Scene {
         layer1.depth = 2;
         //layer1.putTileAt(20, 10, 32)
         layer0.setInteractive();
-        const game = this;
-        const player = this.player;
         player.setData({path: [] });
         layer0.on('pointerdown', (pointer)=>{
             const tx = Math.floor( pointer.worldX / 16 );
