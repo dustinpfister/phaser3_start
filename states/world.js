@@ -157,10 +157,13 @@ class World extends Phaser.Scene {
            this.doorDisable = false;
            while(i--){
                const d = doors[i];
-               const p = d.position;
-               if( this.playerX === p.x && this.playerY === p.y ){
-                   this.doorDisable = true;
-                   break;
+               let p = d.position instanceof Array ? d.position : [ d.position ];
+               let i2 = p.length;
+               while(i2--){
+                   if( this.playerX === p[i2].x && this.playerY === p[i2].y ){
+                       this.doorDisable = true;
+                       break;
+                   }
                }
            }
            return;
@@ -201,17 +204,13 @@ class World extends Phaser.Scene {
     }
     
     doorEnterCheck (d, p) {
-    
         let tiles = [];
-        
         if(p instanceof Array){
            tiles = p;
         }
-        
         if( !(p instanceof Array) ){
            tiles[0] = p;
         }
-    
         let i2 = tiles.length;
         while(i2--){
             const p2 = tiles[i2]
@@ -219,12 +218,14 @@ class World extends Phaser.Scene {
                 this.doorDisable = true;
                 this.setMapData(d.to.mapNum);
                 const d_new = this.mapData.doors[d.to.doorIndex];
-                this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
+                let p3 = d_new.position;
+                if(d_new.position instanceof Array){
+                    p3 = d_new.position[i2];
+                }
+                this.setupMap(d.to.mapNum, p3.x, p3.y);
                 return true;
             }
-            
         }
-        
         return false;
     }
     
