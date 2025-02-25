@@ -58,8 +58,9 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) when a person hits another person have them also get a new location
 * ( done ) filter tiles that are not walkable in getRandomMapPos method
 
-* (      ) timed release for the spawning of people
+* (      ) have a large door system that will allow for doors that are more than one tile
 
+* (      ) timed release for the spawning of people
 * (      ) additional tiles for work tables
 * (      ) additional tiles for counters
 * (      ) add above sprite layer data to the json data for maps
