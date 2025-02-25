@@ -60,9 +60,13 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) have a large door system that will allow for doors that are more than one tile
 * ( done ) start map 4
 
+* (      ) more than one spawn location for maps
+* (      ) have both people and player type spawn locations
 * (      ) timed release for the spawning of people
-* (      ) additional tiles for work tables
-* (      ) additional tiles for counters
+
+* (      ) tiles for work tables
+* (      ) tiles for counters
+* (      ) tiles for tablets, computers
 * (      ) add above sprite layer data to the json data for maps
 
 

@@ -58,8 +58,22 @@ class World extends Phaser.Scene {
     }
     
     spawn () {
-        const pos = this.mapData.spawnAt;
-        this.people.get(pos.x * 16 + 8, pos.y * 16 + 8);  
+        
+        
+        
+        const sa = this.mapData.peopleSpawnAt;
+        const doorIndex = sa[ Math.floor( sa.length * Math.random() ) ];
+        const d = this.mapData.doors[doorIndex];
+        
+        let p = d.position;
+        if(p instanceof Array){
+           p = p[ Math.floor( p.length * Math.random() ) ];
+        }
+        
+        this.people.get(p.x * 16 + 8, p.y * 16 + 8);
+        
+        //const pos = this.mapData.spawnAt;
+        //this.people.get(pos.x * 16 + 8, pos.y * 16 + 8);  
     }
     
     reSpawn (sprite) {
