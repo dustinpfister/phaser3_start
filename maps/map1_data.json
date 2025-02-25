@@ -7,27 +7,19 @@
   "doors" : [
     {
       "desc": "The front east door to trip hallway",
-      "position":{
-        "x": 16,
-        "y": 0
-      },
-      "to": {
-        "map": "Trip_Hallway",
-        "mapNum": 2,
-        "doorIndex": 0 
-      }
+      "position":{ "x": 16, "y": 0 },
+      "to": { "mapNum": 2, "doorIndex": 0 }
     },
     {
       "desc": "The front west door to trip hallway",
-      "position":{
-        "x": 33,
-        "y": 0
-      },
-      "to": {
-        "map": "Trip_Hallway",
-        "mapNum": 2,
-        "doorIndex": 1 
-      }
+      "position":{ "x": 33, "y": 0 },
+      "to": { "mapNum": 2, "doorIndex": 1 }
+    },
+    {
+      "desc": "The back east door to pickup, and transport",
+      "position": [ { "x": 22, "y": 54 },{ "x": 23, "y": 54 } ],
+      "to" : { "mapNum": 2, "doorIndex": 1 }
+    
     }
   ]
 }

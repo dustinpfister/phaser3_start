@@ -166,18 +166,7 @@ class World extends Phaser.Scene {
            return;
        }  
     }
-    
-    doorEnterCheck (i, d, p) {
-        if( this.playerX === p.x && this.playerY === p.y ){
-            this.doorDisable = true;
-            this.setMapData(d.to.mapNum);
-            const d_new = this.mapData.doors[d.to.doorIndex];
-            this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
-            return true;
-        }
-        return false;
-    }
-    
+        
     slideSet (axis, dir, rad, a, v1, v2) {
         if(dir === 'left'){
             if(a > 0){
@@ -211,6 +200,34 @@ class World extends Phaser.Scene {
         } 
     }
     
+    doorEnterCheck (d, p) {
+    
+        let tiles = [];
+        
+        if(p instanceof Array){
+           tiles = p;
+        }
+        
+        if( !(p instanceof Array) ){
+           tiles[0] = p;
+        }
+    
+        let i2 = tiles.length;
+        while(i2--){
+            const p2 = tiles[i2]
+            if( this.playerX === p2.x && this.playerY === p2.y ){
+                this.doorDisable = true;
+                this.setMapData(d.to.mapNum);
+                const d_new = this.mapData.doors[d.to.doorIndex];
+                this.setupMap(d.to.mapNum, d_new.position.x, d_new.position.y);
+                return true;
+            }
+            
+        }
+        
+        return false;
+    }
+    
     doorCheck () {
        const doors = this.mapData.doors; 
        this.doorDisabledCheck();
@@ -218,7 +235,7 @@ class World extends Phaser.Scene {
        while(i-- && !this.doorDisable){
            const d = doors[i];
            const p = d.position;
-           if( this.doorEnterCheck(i,d,p) ){
+           if( this.doorEnterCheck(d,p) ){
                return;
            }
            this.doorSlide(i,d,p);
