@@ -1,6 +1,6 @@
 
 
-const MAX_PEOPLE = 10;
+const MAX_PEOPLE = 50;
 
 class World extends Phaser.Scene {
 
@@ -61,7 +61,12 @@ class World extends Phaser.Scene {
         
         const people = this.people.getChildren();
         
-        if(people.length < MAX_PEOPLE){
+        const now = new Date();
+        
+        if(people.length < MAX_PEOPLE && (!this.lastPersonSpawn || now - this.lastPersonSpawn >= 3000) ){
+        
+            this.lastPersonSpawn = now;
+        
             const sa = this.mapData.peopleSpawnAt;
             const doorIndex = sa[ Math.floor( sa.length * Math.random() ) ];
             const d = this.mapData.doors[doorIndex];
