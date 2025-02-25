@@ -4,6 +4,7 @@
      "x": 3,
      "y": 5
   },
+  "peopleSpawnAt" : [ 0 ],
   "doors" : [
     {
       "desc": "The east entertence to Mega R",

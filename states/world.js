@@ -1,6 +1,6 @@
 
 
-const MAX_PEOPLE = 20;
+const MAX_PEOPLE = 10;
 
 class World extends Phaser.Scene {
 
@@ -57,23 +57,24 @@ class World extends Phaser.Scene {
         return { x: tile.x, y: tile.y };
     }
     
-    spawn () {
+    spawnPerson () {
         
+        const people = this.people.getChildren();
         
+        if(people.length < MAX_PEOPLE){
+            const sa = this.mapData.peopleSpawnAt;
+            const doorIndex = sa[ Math.floor( sa.length * Math.random() ) ];
+            const d = this.mapData.doors[doorIndex];
         
-        const sa = this.mapData.peopleSpawnAt;
-        const doorIndex = sa[ Math.floor( sa.length * Math.random() ) ];
-        const d = this.mapData.doors[doorIndex];
+            let p = d.position;
+            if(p instanceof Array){
+                p = p[ Math.floor( p.length * Math.random() ) ];
+            }
         
-        let p = d.position;
-        if(p instanceof Array){
-           p = p[ Math.floor( p.length * Math.random() ) ];
+            this.people.get(p.x * 16 + 8, p.y * 16 + 8);
         }
         
-        this.people.get(p.x * 16 + 8, p.y * 16 + 8);
         
-        //const pos = this.mapData.spawnAt;
-        //this.people.get(pos.x * 16 + 8, pos.y * 16 + 8);  
     }
     
     reSpawn (sprite) {
@@ -89,6 +90,16 @@ class World extends Phaser.Scene {
         if(this.map){
            this.map.destroy();
         }
+        
+        
+        if(this.people){
+        
+            this.people.destroy(true, true);
+        
+        }
+        
+        this.createPeople();
+        
         const md = this.setMapData( startMap );
         x = x === undefined ? md.spawnAt.x : x;
         y = y === undefined ? md.spawnAt.y : y;
@@ -261,10 +272,11 @@ class World extends Phaser.Scene {
         const camera = this.camera = this.cameras.main;
         this.cursors = this.input.keyboard.createCursorKeys();
         this.createPlayer();
-        this.createPeople();
+        //this.createPeople();
         this.doorDisable = false;
         const startMap = 1;
-        this.setupMap(startMap);        
+        this.setupMap(startMap);
+               
     }
     
     spritePathProcessor (sprite, v=200, min_d=8) {
@@ -308,9 +320,13 @@ class World extends Phaser.Scene {
         this.spritePathProcessor(this.player);
         const people = this.people.getChildren();
         let i_people = people.length;
-        if(i_people < MAX_PEOPLE){
-            this.spawn();
-        }
+        
+        //if(i_people < MAX_PEOPLE){
+        //    this.spawn();
+        //}
+        
+        this.spawnPerson();
+        
         while(i_people--){
             const sprite = people[i_people];
             if(!sprite){
