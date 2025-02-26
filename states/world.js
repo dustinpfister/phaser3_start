@@ -318,39 +318,25 @@ class World extends Phaser.Scene {
     }
     
     offTileCheck (sprite) {
-    
-    
         const tx = ( sprite.x - 8 ) / 16;
         const ty = ( sprite.y - 8 ) / 16;
-    
-        const tiles = this.map.getTilesWithin(Math.floor(tx) - 1, Math.floor(ty) - 1, 3, 3, null, 0);
-
-    
+        const TX = Math.floor(tx);
+        const TY = Math.floor(ty);
         let t = sprite.getData('idleTime');
         t += 1;
         if( t >= 50){
             t = 0;
-            
-            
-            if( ( tx - Math.floor(tx) ) < 0.50 && tiles[4].index === 1 ){
-                sprite.x = tiles[4].x * 16 + 8;
-            }
-            
-            if( ( tx - Math.floor(tx) ) >= 0.50 && tiles[5].index === 1 ){
-                sprite.x = tiles[5].x * 16 + 8;
-            }
-            
-            if( ( ty - Math.floor(ty) ) < 0.50 && tiles[4].index === 1 ){
-                sprite.y = tiles[4].y * 16 + 8;
-            }
-            
-            if( ( ty - Math.floor(ty) ) >= 0.50 && tiles[7].index === 1 ){
-                sprite.y = tiles[7].y * 16 + 8;
-            }
-            
+            const t4 = this.map.getTileAt(TX, TY, 0);
+            const t5 = this.map.getTileAt(TX + 1, TY, 0);
+            const t7 = this.map.getTileAt(TX, TY + 1, 0);
+            const fx = tx - Math.floor(tx);
+            const fy = ty - Math.floor(ty);
+            if(  fx < 0.50 && t4.index === 1 ){ sprite.x = t4.x * 16 + 8; }
+            if( fx >= 0.50 && t5.index === 1 ){ sprite.x = t5.x * 16 + 8; }
+            if( fy < 0.50 && t4.index === 1 ){ sprite.y = t4.y * 16 + 8; }
+            if( fy >= 0.50 && t7.index === 1 ){ sprite.y = t7.y * 16 + 8; }
         }
         sprite.setData('idleTime', t);
-    
     }
 
     update () {
