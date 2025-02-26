@@ -111,7 +111,7 @@ class World extends Phaser.Scene {
         this.player.x = x * 16 + 8;
         this.player.y = y * 16 + 8;
         const map = this.map = this.make.tilemap({ key: 'map' + startMap, layers:[], tileWidth: 16, tileHeight: 16 });
-        map.setCollision( [ 0, 2, 10, 20, 21] );
+        map.setCollision( [ 0, 2, 10, 20, 21, 22] );
         const tiles = map.addTilesetImage('map_16_16');
         // layer 0 will be used for collider cells
         const layer0 =  map.createLayer(0, tiles);
