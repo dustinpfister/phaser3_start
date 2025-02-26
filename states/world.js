@@ -272,22 +272,7 @@ class World extends Phaser.Scene {
            this.doorSlide(i,d,p);
        }
     }
-    
-    create () {
-        const camera = this.camera = this.cameras.main;
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.createPlayer();
-        //this.createPeople();
-        this.doorDisable = false;
-        const startMap = 1;
-        this.setupMap(startMap);  
         
-        
-        //const lifeCycle = this.plugins.get('lifecyclePlugin');
-        
-        //console.log(lifeCycle);   
-    }
-    
     spritePathProcessor (sprite, v=200, min_d=8) {
         if(!sprite.data){
             return;
@@ -353,6 +338,41 @@ class World extends Phaser.Scene {
         
         return false
     
+    }
+
+    create () {
+        const camera = this.camera = this.cameras.main;
+        this.cursors = this.input.keyboard.createCursorKeys();
+        this.createPlayer();
+        //this.createPeople();
+        this.doorDisable = false;
+        const startMap = 1;
+        this.setupMap(startMap);  
+        
+        
+        //const lifeCycle = this.plugins.get('lifecyclePlugin');
+        
+        //console.log(lifeCycle);
+        
+        this.events.on('postupdate', ()=>{
+        
+        const people = this.people.getChildren();
+            let i_people = people.length;
+            const xMax = this.physics.world.bounds.width;
+            const yMax = this.physics.world.bounds.height;
+            while(i_people--){
+                const sprite = people[i_people];
+                if(sprite.x < 0 || sprite.y < 0){
+                    sprite.destroy(true, true);
+                }
+                if(sprite.x >= xMax || sprite.y >= yMax){
+                    sprite.destroy(true, true);
+                }
+            }
+        });
+        
+        console.log()
+        
     }
 
     update () {
