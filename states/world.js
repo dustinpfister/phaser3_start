@@ -280,7 +280,12 @@ class World extends Phaser.Scene {
         //this.createPeople();
         this.doorDisable = false;
         const startMap = 1;
-        this.setupMap(startMap);       
+        this.setupMap(startMap);  
+        
+        
+        //const lifeCycle = this.plugins.get('lifecyclePlugin');
+        
+        //console.log(lifeCycle);   
     }
     
     spritePathProcessor (sprite, v=200, min_d=8) {
@@ -339,6 +344,17 @@ class World extends Phaser.Scene {
         sprite.setData('idleTime', t);
     }
 
+    offGridCheck (sprite) {
+    
+        if(sprite.x < 0 || sprite.y < 0){
+            return true;
+            
+        }
+        
+        return false
+    
+    }
+
     update () {
         if(!this.data.mouseDown){
             this.player.setVelocity(0);
@@ -355,6 +371,13 @@ class World extends Phaser.Scene {
         
         while(i_people--){
             const sprite = people[i_people];
+            
+            if( this.offGridCheck(sprite) ){
+            
+                console.log('person went off grid!');
+            
+            }
+            
             if(!sprite){
                 console.log('well that is not good is it');
             }
@@ -375,7 +398,8 @@ class World extends Phaser.Scene {
             if(sprite.getData('path').length === 0 ){
                 const pos = this.getRandomMapPos();
                 this.setSpritePath(sprite, this.map, pos.x, pos.y);
-            }       
+            }
+            
         }
         // keyboard movement
         const v = 100; 
@@ -405,6 +429,12 @@ class World extends Phaser.Scene {
         this.text_player.y = this.player.body.position.y - 16;
         this.text_player.text = this.playerX + ', ' + this.playerY;
         this.doorCheck();       
+    }
+    
+    postUpdate () {
+    
+        console.log('post update');
+    
     }
 }
 

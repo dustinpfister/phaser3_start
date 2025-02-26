@@ -5,7 +5,8 @@ class Load extends Phaser.Scene {
         this.load.setBaseURL('./');
         
         this.load.plugin('RandomNamePlugin', 'plugins/rnd_name.js', true);        
-        this.load.plugin('PathFinderPlugin', 'plugins/pathfinding.js', true)
+        this.load.plugin('PathFinderPlugin', 'plugins/pathfinding.js', true);
+        //this.load.plugin('LifecyclePlugin', 'plugins/lifecycle.js', true);
                 
         this.load.image('map_16_16', 'sheets/map_16_16.png');
         this.load.atlas('people_16_16', 'sheets/people_16_16.png', 'sheets/people_16_16_atlas.json');

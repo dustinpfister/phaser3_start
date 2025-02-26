@@ -63,6 +63,8 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) timed release for the spawning of people
 * ( done ) when idle for a second or longer, snap to nearest tile if between tiles
 
+* (      ) fix bug that happens when you push a person threw a door.
+
 * (      ) tiles for work tables
 * (      ) tiles for counters
 * (      ) tiles for tablets, computers
