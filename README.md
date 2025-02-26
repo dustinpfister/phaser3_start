@@ -65,6 +65,8 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) fix bug that happens when you push a person threw a door.
 * ( done ) Making use of a post update event
 
+* (      ) Fix problem where a whole bunch of people are layerd on top of each other, blocking a door
+
 * (      ) tiles for work tables
 * (      ) tiles for counters
 * (      ) tiles for tablets, computers
