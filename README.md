@@ -61,6 +61,7 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) start map 4
 * ( done ) have both people and player type spawn locations
 * ( done ) timed release for the spawning of people
+* ( done ) when idle for a second or longer, snap to nearest tile if between tiles
 
 * (      ) tiles for work tables
 * (      ) tiles for counters

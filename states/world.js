@@ -1,6 +1,6 @@
 
 
-const MAX_PEOPLE = 50;
+const MAX_PEOPLE = 20;
 
 class World extends Phaser.Scene {
 
@@ -8,7 +8,7 @@ class World extends Phaser.Scene {
         this.player = this.physics.add.sprite(0, 0, 'people_16_16');
         this.player.setCollideWorldBounds(true);
         this.player.depth = 2;
-        this.player.setData({ path: [] })
+        this.player.setData({ path: [], hits: 0, idleTime: 0 })
         this.text_player = this.add.text(0, 0, 'X').setFontFamily('Monospace').setFontSize(12);
         this.text_player.depth = 1;
         this.player.setFrame('pl_down');
@@ -22,7 +22,7 @@ class World extends Phaser.Scene {
            createCallback : (person) => {
                person.depth = 2;
                person.body.setDrag(500, 500);
-               person.setData({ path:[], hits: 0 })                 
+               person.setData({ path:[], hits: 0, idleTime: 0 })                 
            }
         });
     }
@@ -63,7 +63,7 @@ class World extends Phaser.Scene {
         
         const now = new Date();
         
-        if(people.length < MAX_PEOPLE && (!this.lastPersonSpawn || now - this.lastPersonSpawn >= 3000) ){
+        if(people.length < MAX_PEOPLE && (!this.lastPersonSpawn || now - this.lastPersonSpawn >= 1000) ){
         
             this.lastPersonSpawn = now;
         
@@ -280,8 +280,7 @@ class World extends Phaser.Scene {
         //this.createPeople();
         this.doorDisable = false;
         const startMap = 1;
-        this.setupMap(startMap);
-               
+        this.setupMap(startMap);       
     }
     
     spritePathProcessor (sprite, v=200, min_d=8) {
@@ -316,6 +315,42 @@ class World extends Phaser.Scene {
                }  
             }
         }
+    }
+    
+    offTileCheck (sprite) {
+    
+    
+        const tx = ( sprite.x - 8 ) / 16;
+        const ty = ( sprite.y - 8 ) / 16;
+    
+        const tiles = this.map.getTilesWithin(Math.floor(tx) - 1, Math.floor(ty) - 1, 3, 3, null, 0);
+
+    
+        let t = sprite.getData('idleTime');
+        t += 1;
+        if( t >= 50){
+            t = 0;
+            
+            
+            if( ( tx - Math.floor(tx) ) < 0.50 && tiles[4].index === 1 ){
+                sprite.x = tiles[4].x * 16 + 8;
+            }
+            
+            if( ( tx - Math.floor(tx) ) >= 0.50 && tiles[5].index === 1 ){
+                sprite.x = tiles[5].x * 16 + 8;
+            }
+            
+            if( ( ty - Math.floor(ty) ) < 0.50 && tiles[4].index === 1 ){
+                sprite.y = tiles[4].y * 16 + 8;
+            }
+            
+            if( ( ty - Math.floor(ty) ) >= 0.50 && tiles[7].index === 1 ){
+                sprite.y = tiles[7].y * 16 + 8;
+            }
+            
+        }
+        sprite.setData('idleTime', t);
+    
     }
 
     update () {
@@ -359,17 +394,24 @@ class World extends Phaser.Scene {
         // keyboard movement
         const v = 100; 
         if (this.cursors.left.isDown) {
+            this.player.setData('idleTime', 0);
             this.player.setVelocityX( v * -1 );
         }
         if (this.cursors.right.isDown) {
+            this.player.setData('idleTime', 0);
             this.player.setVelocityX( v );
         }
         if (this.cursors.up.isDown) {
+            this.player.setData('idleTime', 0);
             this.player.setVelocityY( v * -1);
         }
         if (this.cursors.down.isDown) {
+            this.player.setData('idleTime', 0);
             this.player.setVelocityY( v );
         }
+        
+        this.offTileCheck(this.player);
+        
         this.playerX = Math.floor( this.player.x / 16); 
         this.playerY = Math.floor( this.player.y / 16);
         this.camera.setZoom(2.0).centerOn(this.player.x, this.player.y);
