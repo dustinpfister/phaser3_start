@@ -57,29 +57,30 @@ class World extends Phaser.Scene {
         return { x: tile.x, y: tile.y };
     }
     
-    spawnPerson () {
-        
+    spawnPerson () {       
         const people = this.people.getChildren();
-        
         const now = new Date();
-        
         if(people.length < MAX_PEOPLE && (!this.lastPersonSpawn || now - this.lastPersonSpawn >= 1000) ){
-        
             this.lastPersonSpawn = now;
-        
             const sa = this.mapData.peopleSpawnAt;
             const doorIndex = sa[ Math.floor( sa.length * Math.random() ) ];
             const d = this.mapData.doors[doorIndex];
-        
             let p = d.position;
             if(p instanceof Array){
                 p = p[ Math.floor( p.length * Math.random() ) ];
             }
-        
+            
+            // is a person there all ready?
+            let i = people.length;
+            while(i--){
+                const person = people[i];
+                if( Math.floor( person.x / 16 ) === p.x && Math.floor( person.y / 16 ) === p.y ){
+                    return;
+                }
+            }
+            
             this.people.get(p.x * 16 + 8, p.y * 16 + 8);
         }
-        
-        
     }
     
     reSpawn (sprite) {

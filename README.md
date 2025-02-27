@@ -64,19 +64,20 @@ I also have a player object that can be moved with the arrow keys, and also with
 * ( done ) when idle for a second or longer, snap to nearest tile if between tiles
 * ( done ) fix bug that happens when you push a person threw a door.
 * ( done ) Making use of a post update event
-
-* (      ) Fix problem where a whole bunch of people are layerd on top of each other, blocking a door
-
-* (      ) tiles for work tables
-* (      ) tiles for counters
-* (      ) tiles for tablets, computers
-* (      ) add above sprite layer data to the json data for maps
-
-
+* ( done ) tiles for counters
+* ( done ) Fix a bug where a whole bunch of people are layerd on top of each other, blocking a door
 ```
 
 ## R1 - ??
 
 For now I do not have any plans for R1 as I am working on my first game that is based off of what I have started here. However as I work more on that I might get around to working more on this starting point, or make a new one.
 
-
+```
+* (      ) add above sprite layer data to the json data for maps
+* (      ) tiles for clothing return rack
+* (      ) tiles for clothing stock
+* (      ) tiles for clothing empty
+* (      ) tiles for work tables
+* (      ) tiles for counter tablets
+* (      ) tiles for work table computers
+```
